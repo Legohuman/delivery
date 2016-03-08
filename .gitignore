@@ -1,5 +1,6 @@
 .idea/*
 .vertx/*
 target/*
+**/bower_components/*
 *.iml
 *.ipr

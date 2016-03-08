@@ -1,7 +1,13 @@
 package com.firstlinesoftware.delivery.server;
 
+import com.firstlinesoftware.delivery.server.controller.PackingController;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpMethod;
+import io.vertx.core.http.HttpServer;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 
 /**
  * User: Legohuman
@@ -15,16 +21,31 @@ public class DeliveryServer extends AbstractVerticle {
 
     public void start() {
         Vertx vertx = Vertx.vertx();
-        vertx.createHttpServer().requestHandler(req -> {
-            req.response()
-                    .putHeader("content-type", "application/json")
-                    .end("{contanerSize: [5898,2287,2698], containerNum: 1, placementData: [" +
-                            "[" +
-                            "    { start: [0,0,0], end: [1000,1000,1000] }," +
-                            "    { start: [1000,0,0], end: [2000,1000,1000] }," +
-                            "    { start: [2000,0,0], end: [3000,1000,100] }," +
-                            "]" +
-                            "]}"); //20ft container from http://www.ecbgroup.com/20ft-High-Cube-Shipping-Container/Logistics-and-Forwarding/Branches/Product/content/9/22
-        }).listen(8080);
+        HttpServer server = vertx.createHttpServer();
+
+        Router router = Router.router(vertx);
+
+        // CORS enabling
+        router.route().handler(CorsHandler.create("*")
+                .allowedMethod(HttpMethod.GET)
+                .allowedMethod(HttpMethod.POST)
+                .allowedMethod(HttpMethod.OPTIONS)
+                .allowedMethod(HttpMethod.DELETE)
+                .allowedMethod(HttpMethod.PATCH)
+                .allowedHeader("X-PINGARUNER")
+                .allowedHeader("Content-Type"));
+
+        router.route().handler(BodyHandler.create());
+
+        // to avoid writing it in every handler
+        router.route("/").handler(ctx -> {
+            ctx.response().putHeader("content-type", "application/json");
+            ctx.next();
+        });
+
+        router.post("/packing").handler(PackingController::packContainers);
+
+        server.requestHandler(router::accept)
+                .listen(8080, "0.0.0.0");
     }
 }
