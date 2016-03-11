@@ -58,6 +58,7 @@ public class DeliveryServer extends AbstractVerticle {
 
         router.route("/websocket/*").handler(sockJSHandler);
         router.route("/assets/*").handler(StaticHandler.create("assets"));
+        router.route("/web/*").handler(StaticHandler.create("src/web"));
 
         router.post("/packing").handler(PackingController::packContainers);
 

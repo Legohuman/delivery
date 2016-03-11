@@ -1,7 +1,7 @@
 (function (app, undefined) {
     'use strict';
 
-    app.controller('CalculationCtrl', function (CalculationService, util, $scope) {
+    app.controller('CalculationCtrl', function (CalculationService, RenderService, util, $scope) {
         $scope.data = {
             products: [
                 {
@@ -20,6 +20,8 @@
                 }
             ]
         };
+
+        RenderService.start();
 
         this.addProduct = function () {
             $scope.data.products.push({
@@ -41,6 +43,7 @@
         this.calculatePacking = function () {
             CalculationService.calculatePacking($scope.data.products).then(function (response) {
                 console.log(response.data);
+                RenderService.update(response.data);
             });
         }
     });
