@@ -8,6 +8,9 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import io.vertx.ext.web.handler.StaticHandler;
+import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 
 /**
  * User: Legohuman
@@ -42,6 +45,19 @@ public class DeliveryServer extends AbstractVerticle {
             ctx.response().putHeader("content-type", "application/json");
             ctx.next();
         });
+
+        SockJSHandlerOptions options = new SockJSHandlerOptions().setHeartbeatInterval(2000);
+
+        SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
+
+        sockJSHandler.socketHandler(sockJSSocket -> {
+
+            // Just echo the data back
+            sockJSSocket.handler(sockJSSocket::write);
+        });
+
+        router.route("/websocket/*").handler(sockJSHandler);
+        router.route("/assets/*").handler(StaticHandler.create("assets"));
 
         router.post("/packing").handler(PackingController::packContainers);
 
