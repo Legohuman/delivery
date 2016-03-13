@@ -179,7 +179,7 @@ THREE.TrackballControls = function (object, domElement) {
                 quaternion.setFromAxisAngle(axis, angle);
 
                 _eye.applyQuaternion(quaternion);
-                _this.object.up.applyQuaternion(quaternion);
+                _this.object.up.set(0, 1, 0);
 
                 _lastAxis.copy(axis);
                 _lastAngle = angle;

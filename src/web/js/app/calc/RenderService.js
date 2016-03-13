@@ -8,6 +8,7 @@
         var container;
 
         var camera, controls, scene, renderer,
+            aspectRatio = 16 / 7,
             data = {},
             updatableObjects = [],
             scaleFactor = 100,
@@ -80,7 +81,8 @@
             renderer = new THREE.WebGLRenderer({antialias: false});
             renderer.setClearColor(scene.fog.color);
             renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            var rect = container.getBoundingClientRect();
+            renderer.setSize(rect.width, rect.width / aspectRatio);
 
             container.appendChild(renderer.domElement);
 
@@ -154,7 +156,8 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            var rect = container.getBoundingClientRect();
+            renderer.setSize(rect.width, rect.width / aspectRatio);
 
             controls.handleResize();
 

@@ -4,6 +4,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body ng-app="DeliveryApp">
 
@@ -82,7 +83,9 @@
     </md-content>
 </div>
 
-<div id="container"></div>
+<div id="container" class="render-container">
+    <span class="render-container-hint">Ctrl + scroll to zoom. Left click + drag to rotate. Right click + drag to pan.</span>
+</div>
 
 <!--Lib js-->
 <script src="bower_components/angular/angular.js"></script>

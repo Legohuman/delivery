@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
 .inputdemoErrors .inputErrorsApp {
     min-height: 48px;
 }
@@ -6,4 +12,19 @@
     font-size: 0.8em;
     text-align: left;
     width: 100%;
+}
+
+.render-container {
+    position: relative;
+}
+
+.render-container-hint {
+    position: absolute;
+    display: inline-block;
+    left: 10px;
+    top: 10px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    color: #333;
+    text-shadow: #eee 1px 1px;
+    font-size: 16px;
 }
