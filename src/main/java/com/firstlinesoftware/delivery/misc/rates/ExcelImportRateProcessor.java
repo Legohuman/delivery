@@ -6,6 +6,7 @@ import com.firstlinesoftware.delivery.dto.Product;
 import com.firstlinesoftware.delivery.eval.impl.fn.Functions;
 import com.firstlinesoftware.delivery.misc.rates.dto.ExcelImportRateDto;
 import com.firstlinesoftware.delivery.storage.map.Storage;
+import com.firstlinesoftware.delivery.util.NumberParser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
@@ -116,7 +117,7 @@ public class ExcelImportRateProcessor {
 
     @Nullable
     private ImmutablePair<ImportRateKey, Double> getCostRate(@NotNull String code, @NotNull String costRatePart) {
-        Double rate = parseDouble(costRatePart);
+        Double rate = NumberParser.parseDouble(costRatePart);
         return rate == null ? null : costPair(code, rate / 100); //convert percents to factor
     }
 
@@ -131,10 +132,10 @@ public class ExcelImportRateProcessor {
                 String ratePart = StringUtils.trimToEmpty(weightRatePart.substring(0, forStrIndex));
                 int euroStrIndex = ratePart.indexOf(euroStr);
                 if (euroStrIndex != -1) {
-                    Double rate = parseDouble(StringUtils.trimToEmpty(ratePart.substring(0, euroStrIndex)));
+                    Double rate = NumberParser.parseDouble(StringUtils.trimToEmpty(ratePart.substring(0, euroStrIndex)));
 
                     int lastSpace = weightRatePart.lastIndexOf(' ');
-                    Double weight = parseDouble(weightRatePart.substring(forStrIndex + forStr.length(), lastSpace));
+                    Double weight = NumberParser.parseDouble(weightRatePart.substring(forStrIndex + forStr.length(), lastSpace));
                     if (rate != null && weight != null) {
                         rate /= weight;
                         return weightPair(code, rate);
@@ -152,14 +153,6 @@ public class ExcelImportRateProcessor {
 
     private <T> List<T> nullOrSingletonList(T item) {
         return item == null ? null : Collections.singletonList(item);
-    }
-
-    private Double parseDouble(String str) {
-        try {
-            return new Double(StringUtils.trimToEmpty(str).replaceAll(",", "."));
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 
     private ImmutablePair<ImportRateKey, Double> weightPair(@NotNull String code, @NotNull Double rate) {

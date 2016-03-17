@@ -25,13 +25,13 @@ public enum Functions {
         AbstractFunction<Double> costRateFn = new AbstractFunction<Double>() {
             @Override
             public Double evaluate(EvalContext context) {
-                return (Double) context.fn(RatesCalcHelper.rateFnName).arguments(val("cost")).eval(context);
+                return (Double) context.fn(RatesCalcHelper.importRateFnName).arguments(val("cost")).eval(context);
             }
         };
         AbstractFunction<Double> weightRateFn = new AbstractFunction<Double>() {
             @Override
             public Double evaluate(EvalContext context) {
-                return (Double) context.fn(RatesCalcHelper.rateFnName).arguments(val("weight")).eval(context);
+                return (Double) context.fn(RatesCalcHelper.importRateFnName).arguments(val("weight")).eval(context);
             }
         };
         fnAlias(context, importCostRate.name(), mul(costRateFn, var(Variables.product_cost.name())));

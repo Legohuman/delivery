@@ -1,9 +1,6 @@
 package com.firstlinesoftware.delivery.storage.map;
 
-import com.firstlinesoftware.delivery.dto.ImportPaymentKey;
-import com.firstlinesoftware.delivery.dto.ImportRateKey;
-import com.firstlinesoftware.delivery.dto.Product;
-import com.firstlinesoftware.delivery.eval.api.Function;
+import com.firstlinesoftware.delivery.dto.*;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.slf4j.Logger;
@@ -103,26 +100,36 @@ public class Storage {
     public enum MapNames {
         product,
         importRates,
+        transportRates,
         importPayments,
+        cities,
         functions
     }
 
     public class Maps {
 
         public ConcurrentNavigableMap<String, Product> products() {
-            return db.treeMap(Storage.MapNames.product.name());
+            return db.treeMap(MapNames.product.name());
         }
 
         public ConcurrentNavigableMap<ImportRateKey, Double> importRates() {
-            return db.treeMap(Storage.MapNames.importRates.name());
+            return db.treeMap(MapNames.importRates.name());
+        }
+
+        public ConcurrentNavigableMap<TransportRateKey, Double> transportRates() {
+            return db.treeMap(MapNames.transportRates.name());
         }
 
         public ConcurrentNavigableMap<ImportPaymentKey, String> importPaymentRules() {
-            return db.treeMap(Storage.MapNames.importPayments.name());
+            return db.treeMap(MapNames.importPayments.name());
+        }
+
+        public ConcurrentNavigableMap<Long, City> cities() {
+            return db.treeMap(MapNames.cities.name());
         }
 
         public ConcurrentNavigableMap<String, String> functions() {
-            return db.treeMap(Storage.MapNames.functions.name());
+            return db.treeMap(MapNames.functions.name());
         }
 
         private void checkDbIsOpen() {
