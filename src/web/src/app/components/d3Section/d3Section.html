@@ -29,7 +29,7 @@
       <div id="productTable" class="item-table" ng-repeat="product in vm.data.products">
         <div class="row product-table-row">
           <div class="col-xs-2">
-            <input type="text" class="form-control" placeholder="code" maxlength="30" name="code"
+            <input type="text" class="form-control" placeholder="Код продукта" maxlength="30" name="code"
                    ng-model="product.code">
           </div>
           <div class="col-xs-2">
@@ -49,8 +49,7 @@
                    ng-model="product.count" min="0" max="100">
           </div>
           <div class="col-xs-2">
-            <button type="button" class="btn btn-default aria-label=" delete
-            ">
+            <button type="button" class="btn btn-default aria-label=" ng-click="vm.deleteProduct(product.uuid)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </div>
