@@ -46,6 +46,35 @@
             width: 1,
             height: 1
           },
+          /*{
+            uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },*/
+
           {
             uuid: util.uuid(),
             code: '1010.23.45',

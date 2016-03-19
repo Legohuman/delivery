@@ -2,7 +2,6 @@ package com.firstlinesoftware.delivery.server.controller;
 
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.server.converter.BoxToJsonConverter;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -32,8 +31,8 @@ public class PackingController {
     private static List<Box> getBoxes(PaymentInfo.ContainerType type, List<Box> boxesNotPacked) {
             Container dimensions = new Container(
                     (int) (type.getWidth() * 1000),
-                    (int) (type.getLength() * 1000),
-                    (int) (type.getHeight() * 1000));
+                    (int) (type.getHeight() * 1000),
+                    (int) (type.getLength() * 1000));
 
             PackingService service = new Calculator();
             return service.pack(boxesNotPacked, dimensions);
@@ -62,8 +61,8 @@ public class PackingController {
                     containersJson.add(new JsonObject()
                             .put("contanerSize", Arrays.asList(new Integer[]{
                                     (int) (type.getWidth() * 1000),
-                                    (int) (type.getLength() * 1000),
-                                    (int) (type.getHeight() * 1000)}))
+                                    (int) (type.getHeight() * 1000),
+                                    (int) (type.getLength() * 1000)}))
                             .put("containerNum", containerNum)
                             .put("placementData", BoxToJsonConverter.convert(boxes)));
                 });

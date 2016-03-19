@@ -17,7 +17,7 @@
       data = {},
       updatableObjects = [],
       scaleFactor = 100,
-      boxColors = [0x33ff33, 0x3333ff, 0xff33ff, 0xffff33, 0x33ffff];
+      boxColors = [0xe6b800, 0xffd633, 0x997300, 0xe6ac00, 0x4d3900, 0xff8000, 0x994d00];
 
     return {
       start: function () {
@@ -84,7 +84,7 @@
       // renderer
 
       renderer = new THREE.WebGLRenderer({antialias: false});
-      renderer.setClearColor(scene.fog.color);
+      renderer.setClearColor(0xb3d1ff);
       renderer.setPixelRatio(window.devicePixelRatio);
       var rect = container.getBoundingClientRect();
       renderer.setSize(rect.width, rect.width / aspectRatio);
@@ -101,11 +101,11 @@
     }
 
     function addPlane() {
-      var texture = new THREE.TextureLoader().load("assets/images/ground1.jpg");
+      var texture = new THREE.TextureLoader().load("assets/images/render/ground.jpg");
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(25, 25);
-      var geometry = new THREE.RingGeometry(0, 500, 16, 1);
+      var geometry = new THREE.RingGeometry(0.0001, 500, 16, 1);
       var material = new THREE.MeshBasicMaterial({
         color: 0x8e8e8e,
         map: texture,
@@ -121,21 +121,38 @@
       if (data && data.contanerSize && data.placementData) {
         for (var ci = 0; ci < data.placementData.length; ci++) {
           var widthOffset = ci * data.contanerSize[0] / scaleFactor * 1.3;
-          addBox([0, 0, 0], data.contanerSize, 0xff3333, true, widthOffset);
+
+          addBox([0, 0, 0], data.contanerSize, getContainerMaterial(), false, widthOffset);
 
           for (var bi = 0; bi < data.placementData[ci].length; bi++) {
-            addBox(data.placementData[ci][bi].start, data.placementData[ci][bi].end, boxColors[bi % boxColors.length], false, widthOffset);
+
+
+            addBox(data.placementData[ci][bi].start, data.placementData[ci][bi].end, getBoxMaterial(boxColors[bi % boxColors.length]), false, widthOffset);
           }
         }
       }
     }
 
-    function addBox(starts, ends, color, flipFaces, offset) {
+    function getBoxMaterial(color) {
+      var texture = new THREE.TextureLoader().load('assets/images/render/box_face.jpg');
+      var material = new THREE.MeshPhongMaterial({map: texture, color: color});
+      material.needsUpdate = true;
+      return material;
+    }
+
+    function getContainerMaterial() {
+
+      var material = new THREE.MeshPhongMaterial({color: 0xcccccc, transparent: true, opacity: 0.5});
+      material.needsUpdate = true;
+      return material;
+    }
+
+    function addBox(starts, ends, material, flipFaces, offset) {
       var width = (ends[0] - starts[0]) / scaleFactor;
       var height = (ends[1] - starts[1]) / scaleFactor;
       var depth = (ends[2] - starts[2]) / scaleFactor;
       var geometry = new THREE.BoxGeometry(width, height, depth);
-      var material = new THREE.MeshPhongMaterial({color: color, shading: THREE.SmoothShading});
+
       if (flipFaces) {
         geometry.scale(-1, -1, -1);
       }
