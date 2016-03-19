@@ -2,7 +2,6 @@ package com.firstlinesoftware.delivery.server.controller;
 
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.server.converter.BoxToJsonConverter;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -12,10 +11,7 @@ import org.tirnak.binpacking.model.Container;
 import org.tirnak.binpacking.service.PackingService;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,8 +28,8 @@ public class PackingController {
     private static List<Box> getBoxes(PaymentInfo.ContainerType type, List<Box> boxesNotPacked) {
             Container dimensions = new Container(
                     (int) (type.getWidth() * 1000),
-                    (int) (type.getLength() * 1000),
-                    (int) (type.getHeight() * 1000));
+                    (int) (type.getHeight() * 1000),
+                    (int) (type.getLength() * 1000));
 
             PackingService service = new Calculator();
             return service.pack(boxesNotPacked, dimensions);
@@ -45,8 +41,8 @@ public class PackingController {
                 obj -> {
                         JsonObject jsonObject = (JsonObject) obj;
                         return new Box((int) (jsonObject.getDouble("width") * 1000),
-                                (int) (jsonObject.getDouble("length") * 1000),
-                                (int) (jsonObject.getDouble("height") * 1000));
+                                (int) (jsonObject.getDouble("height") * 1000),
+                                (int) (jsonObject.getDouble("length") * 1000));
 
                 }).collect(Collectors.toList());
 
@@ -61,8 +57,8 @@ public class PackingController {
                     containersJson.add(new JsonObject()
                             .put("contanerSize", Arrays.asList(new Integer[]{
                                     (int) (type.getWidth() * 1000),
-                                    (int) (type.getLength() * 1000),
-                                    (int) (type.getHeight() * 1000)}))
+                                    (int) (type.getHeight() * 1000),
+                                    (int) (type.getLength() * 1000)}))
                             .put("containerNum", containerNum)
                             .put("placementData", BoxToJsonConverter.convert(boxes)));
                 });
