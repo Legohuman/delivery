@@ -52,6 +52,32 @@
             length: 1,
             width: 1.5,
             height: 1.5
+          },{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
+          },
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          },{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
+          },
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
           }
         ]
       };

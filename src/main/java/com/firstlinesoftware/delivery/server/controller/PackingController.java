@@ -44,9 +44,10 @@ public class PackingController {
         List<Box> boxesToPack = JsonBoxes.stream().map(
                 obj -> {
                         JsonObject jsonObject = (JsonObject) obj;
-                        return new Box((int) (jsonObject.getDouble("width") * 1000),
-                                (int) (jsonObject.getDouble("length") * 1000),
-                                (int) (jsonObject.getDouble("height") * 1000));
+                        return Box.newBuilder().setXd((int) (jsonObject.getDouble("width") * 1000))
+                                .setYd((int) (jsonObject.getDouble("length") * 1000))
+                                .setZd((int) (jsonObject.getDouble("height") * 1000)).build();
+
 
                 }).collect(Collectors.toList());
 
