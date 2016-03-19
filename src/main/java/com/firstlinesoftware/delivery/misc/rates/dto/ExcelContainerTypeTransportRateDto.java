@@ -11,7 +11,6 @@ public class ExcelContainerTypeTransportRateDto {
 
     private String fromCode;
     private String toCode;
-    private String minCost;
     private String containerType;
     private String containerRate;
     private String duration;
@@ -19,10 +18,9 @@ public class ExcelContainerTypeTransportRateDto {
     public ExcelContainerTypeTransportRateDto() {
     }
 
-    public ExcelContainerTypeTransportRateDto(String fromCode, String toCode, String minCost, String containerType, String containerRate, String duration) {
+    public ExcelContainerTypeTransportRateDto(String fromCode, String toCode, String containerType, String containerRate, String duration) {
         this.fromCode = fromCode;
         this.toCode = toCode;
-        this.minCost = minCost;
         this.containerType = containerType;
         this.containerRate = containerRate;
         this.duration = duration;
@@ -42,14 +40,6 @@ public class ExcelContainerTypeTransportRateDto {
 
     public void setToCode(String toCode) {
         this.toCode = toCode;
-    }
-
-    public String getMinCost() {
-        return minCost;
-    }
-
-    public void setMinCost(String minCost) {
-        this.minCost = minCost;
     }
 
     public String getContainerType() {

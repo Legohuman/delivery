@@ -22,7 +22,7 @@ public class ImportProductCalc extends AbstractCalc {
 
     @Override
     public Double calculate(ProductInfo productInfo, PaymentInfo paymentInfo, SegmentInfo segmentInfo) {
-        EvalContextImpl context = initContext(productInfo, paymentInfo);
+        EvalContextImpl context = initContext(productInfo, paymentInfo, segmentInfo);
 
         double customsServiceRate = 0.01;
         double customsService = productInfo.getCost() * customsServiceRate;

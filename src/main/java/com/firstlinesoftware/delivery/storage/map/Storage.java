@@ -104,6 +104,7 @@ public class Storage {
         transportFunctions,
         importPayments,
         cities,
+        segments,
         functions
     }
 
@@ -131,6 +132,10 @@ public class Storage {
 
         public ConcurrentNavigableMap<Integer, City> cities() {
             return db.treeMap(MapNames.cities.name());
+        }
+
+        public ConcurrentNavigableMap<Integer, SegmentVal> segments() {
+            return db.treeMap(MapNames.segments.name());
         }
 
         public ConcurrentNavigableMap<String, String> functions() {

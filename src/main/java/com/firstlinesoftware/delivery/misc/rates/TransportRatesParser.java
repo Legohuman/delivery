@@ -1,6 +1,8 @@
 package com.firstlinesoftware.delivery.misc.rates;
 
 import com.firstlinesoftware.delivery.misc.rates.dto.ExcelCityDto;
+import com.firstlinesoftware.delivery.misc.rates.dto.ExcelContainerTypeTransportRateDto;
+import com.firstlinesoftware.delivery.misc.rates.dto.ExcelDimensionBasedTransportRateDto;
 import com.firstlinesoftware.delivery.storage.map.Storage;
 import com.github.excelmapper.core.engine.*;
 import org.apache.commons.lang3.StringUtils;
@@ -26,17 +28,47 @@ public class TransportRatesParser {
     public static final String miscFolder = "misc";
     public static final String dictFileName = "transport-rates.xlsx";
 
-    private Map<CellCoordinate, String> cityColumns = initCityColumns();
     private ItemContainerFactory itemContainerFactory = new ItemContainerFactory();
     private SimpleProcessMessagesHolder messagesHolder = new SimpleProcessMessagesHolder();
 
-    private final Consumer<ExcelCityDto> dtoConsumer;
+    private final Consumer<ExcelCityDto> cityConsumer;
 
     private Map<CellCoordinate, String> initCityColumns() {
         HashMap<CellCoordinate, String> columns = new HashMap<>();
         columns.put(new CellCoordinate(0, 0), ExcelCityDto.Fileds.code.name());
         columns.put(new CellCoordinate(1, 0), ExcelCityDto.Fileds.name.name());
         columns.put(new CellCoordinate(2, 0), ExcelCityDto.Fileds.countryCode.name());
+        return columns;
+    }
+
+    private Map<CellCoordinate, String> initEmskAviaColumns() {
+        HashMap<CellCoordinate, String> columns = new HashMap<>();
+        columns.put(new CellCoordinate(0, 0), ExcelDimensionBasedTransportRateDto.Fileds.fromCode.name());
+        columns.put(new CellCoordinate(2, 0), ExcelDimensionBasedTransportRateDto.Fileds.toCode.name());
+        columns.put(new CellCoordinate(4, 0), ExcelDimensionBasedTransportRateDto.Fileds.minCost.name());
+        columns.put(new CellCoordinate(5, 0), ExcelDimensionBasedTransportRateDto.Fileds.weightRate.name());
+        columns.put(new CellCoordinate(6, 0), ExcelDimensionBasedTransportRateDto.Fileds.duration.name());
+        return columns;
+    }
+
+    private Map<CellCoordinate, String> initEmskRailColumns() {
+        HashMap<CellCoordinate, String> columns = new HashMap<>();
+        columns.put(new CellCoordinate(0, 0), ExcelDimensionBasedTransportRateDto.Fileds.fromCode.name());
+        columns.put(new CellCoordinate(2, 0), ExcelDimensionBasedTransportRateDto.Fileds.toCode.name());
+        columns.put(new CellCoordinate(4, 0), ExcelDimensionBasedTransportRateDto.Fileds.minCost.name());
+        columns.put(new CellCoordinate(5, 0), ExcelDimensionBasedTransportRateDto.Fileds.weightRate.name());
+        columns.put(new CellCoordinate(6, 0), ExcelDimensionBasedTransportRateDto.Fileds.volumeRate.name());
+        columns.put(new CellCoordinate(7, 0), ExcelDimensionBasedTransportRateDto.Fileds.duration.name());
+        return columns;
+    }
+
+    private Map<CellCoordinate, String> initFescoShipColumns() {
+        HashMap<CellCoordinate, String> columns = new HashMap<>();
+        columns.put(new CellCoordinate(0, 0), ExcelContainerTypeTransportRateDto.Fileds.fromCode.name());
+        columns.put(new CellCoordinate(2, 0), ExcelContainerTypeTransportRateDto.Fileds.toCode.name());
+        columns.put(new CellCoordinate(4, 0), ExcelContainerTypeTransportRateDto.Fileds.containerType.name());
+        columns.put(new CellCoordinate(5, 0), ExcelContainerTypeTransportRateDto.Fileds.containerRate.name());
+        columns.put(new CellCoordinate(6, 0), ExcelContainerTypeTransportRateDto.Fileds.duration.name());
         return columns;
     }
 
@@ -63,8 +95,8 @@ public class TransportRatesParser {
         storage.close();
     }
 
-    public TransportRatesParser(Consumer<ExcelCityDto> dtoConsumer) {
-        this.dtoConsumer = dtoConsumer;
+    public TransportRatesParser(Consumer<ExcelCityDto> cityConsumer) {
+        this.cityConsumer = cityConsumer;
     }
 
     private void parse() {
@@ -73,10 +105,9 @@ public class TransportRatesParser {
 
         if (ratesArchive.exists()) {
             try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(ratesArchive))) {
-                CellGroup group = initCellGroup();
                 Workbook wb = new XSSFWorkbook(in);
 
-                processSheets(wb, group);
+                processCitySheet(wb);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -86,7 +117,8 @@ public class TransportRatesParser {
         }
     }
 
-    private void processSheets(Workbook wb, CellGroup group) {
+    private void processCitySheet(Workbook wb) {
+        CellGroup group = initCellGroup(initCityColumns());
         Sheet sheet = wb.getSheetAt(0);
 
         ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 0));
@@ -94,7 +126,21 @@ public class TransportRatesParser {
         while (!isEmpty(dto)) {
             dto = container.readItem(ExcelCityDto.class, group, messagesHolder);
             if (!isEmpty(dto)) {
-                dtoConsumer.accept(dto);
+                cityConsumer.accept(dto);
+            }
+        }
+    }
+
+    private void processEmskAviaSheet(Workbook wb) {
+        CellGroup group = initCellGroup(initEmskAviaColumns());
+        Sheet sheet = wb.getSheetAt(1);
+
+        ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
+        ExcelCityDto dto = null;
+        while (!isEmpty(dto)) {
+            dto = container.readItem(ExcelCityDto.class, group, messagesHolder);
+            if (!isEmpty(dto)) {
+                cityConsumer.accept(dto);
             }
         }
     }
@@ -104,10 +150,10 @@ public class TransportRatesParser {
     }
 
     @NotNull
-    private CellGroup initCellGroup() {
+    private CellGroup initCellGroup(Map<CellCoordinate, String> columns) {
         //Define row cell group
         CellGroup group = new CellGroup();
-        for (Map.Entry<CellCoordinate, String> col : cityColumns.entrySet()) {
+        for (Map.Entry<CellCoordinate, String> col : columns.entrySet()) {
             group.addCell(col.getKey(), new BeanPropertyValueReference(col.getValue()));
         }
         return group;

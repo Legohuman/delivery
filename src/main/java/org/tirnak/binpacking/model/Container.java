@@ -3,10 +3,10 @@ package org.tirnak.binpacking.model;
 /**
  * Created by kirill on 12.03.16.
  */
-public class Space extends Area {
+public class Container extends Volume {
 
 
-    public Space(int x0, int y0, int z0, int xd, int yd, int zd) {
+    public Container(int x0, int y0, int z0, int xd, int yd, int zd) {
         this.z0 = z0;
         this.x0 = x0;
         this.y0 = y0;
@@ -15,7 +15,7 @@ public class Space extends Area {
         this.yd = yd;
     }
 
-    public Space(int xd, int yd, int zd) {
+    public Container(int xd, int yd, int zd) {
         this.xd = xd;
         this.yd = yd;
         this.zd = zd;
@@ -27,12 +27,12 @@ public class Space extends Area {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Space space = (Space) o;
+        Container container = (Container) o;
 
-        if (x0 != space.x0) return false;
-        if (y0 != space.y0) return false;
-        if (xd != space.xd) return false;
-        return yd == space.yd;
+        if (x0 != container.x0) return false;
+        if (y0 != container.y0) return false;
+        if (xd != container.xd) return false;
+        return yd == container.yd;
 
     }
 

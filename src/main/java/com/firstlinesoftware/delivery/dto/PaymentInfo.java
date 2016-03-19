@@ -21,9 +21,19 @@ public class PaymentInfo {
     }
 
     public enum ContainerType {
-        с20ft,
-        c40ft,
-        none
+        с20ft(32.14),
+        c40ft(65.706),
+        none(0);
+
+        private double volume;
+
+        ContainerType(double volume) {
+            this.volume = volume;
+        }
+
+        public double getVolume() {
+            return volume;
+        }
     }
 
     public enum FitnessProperty {
@@ -40,8 +50,6 @@ public class PaymentInfo {
     private Vertex origin;
 
     private Vertex destination;
-
-    private TransportType transportType;
 
     private LocalDate date;
 
@@ -91,14 +99,6 @@ public class PaymentInfo {
 
     public void setDestination(Vertex destination) {
         this.destination = destination;
-    }
-
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
     }
 
     public LocalDate getDate() {

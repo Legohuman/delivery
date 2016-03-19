@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 /**
  * Created by kirill on 12.03.16.
  */
-public class Box extends Area implements Cloneable {
+public class Box extends Volume implements Cloneable {
 
     private int id;
     private static AtomicInteger indexer = new AtomicInteger();
@@ -82,16 +82,16 @@ public class Box extends Area implements Cloneable {
         }
     }
 
-    public int getMinGapAndRotate(Area area) {
-        int xx = area.xd - xd;
-        int yy = area.yd - yd;
-        int zz = area.zd - zd;
-        int xz = area.xd - zd;
-        int yx = area.yd - xd;
-        int zy = area.zd - yd;
-        int xy = area.xd - yd;
-        int yz = area.yd - zd;
-        int zx = area.zd - xd;
+    public int getMinGapAndRotate(Volume volume) {
+        int xx = volume.xd - xd;
+        int yy = volume.yd - yd;
+        int zz = volume.zd - zd;
+        int xz = volume.xd - zd;
+        int yx = volume.yd - xd;
+        int zy = volume.zd - yd;
+        int xy = volume.xd - yd;
+        int yz = volume.yd - zd;
+        int zx = volume.zd - xd;
         try {
             int minGap = Stream.of(xx,yy,zz,xz,yx,zy,xy,yz,zx).filter(i -> i >= 0).min(Integer::compare).get();
             if (minGap == xx || minGap == yy || minGap == zz) {
@@ -108,16 +108,16 @@ public class Box extends Area implements Cloneable {
     }
 
 
-    public int getMinGap(Area area) {
-        int xx = area.xd - xd;
-        int yy = area.yd - yd;
-        int zz = area.zd - zd;
-        int xz = area.xd - zd;
-        int yx = area.yd - xd;
-        int zy = area.zd - yd;
-        int xy = area.xd - yd;
-        int yz = area.yd - zd;
-        int zx = area.zd - xd;
+    public int getMinGap(Volume volume) {
+        int xx = volume.xd - xd;
+        int yy = volume.yd - yd;
+        int zz = volume.zd - zd;
+        int xz = volume.xd - zd;
+        int yx = volume.yd - xd;
+        int zy = volume.zd - yd;
+        int xy = volume.xd - yd;
+        int yz = volume.yd - zd;
+        int zx = volume.zd - xd;
         try {
             int minGap = Stream.of(xx,yy,zz,xz,yx,zy,xy,yz,zx).filter(i -> i >= 0).min(Integer::compare).get();
             return minGap;
