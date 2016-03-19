@@ -44,72 +44,27 @@
         products: [
           {
             uuid: util.uuid(),
-            code: '1010.23.12',
+            code: '1105 10 000 0',
             length: 1,
             width: 1,
-            height: 1
-          },
-          /*{
-            uuid: util.uuid(),
-           code: '1010.23.12',
-           length: 0.5,
-           width: 0.5,
-           height: 0.5
-           },
-           {
-           uuid: util.uuid(),
-           code: '1010.23.12',
-           length: 0.5,
-           width: 0.5,
-           height: 0.5
-           },
-           {
-           uuid: util.uuid(),
-           code: '1010.23.12',
-           length: 0.5,
-           width: 0.5,
-           height: 0.5
-           },
-           {
-           uuid: util.uuid(),
-           code: '1010.23.12',
-           length: 0.5,
-           width: 0.5,
-           height: 0.5
-           },*/
-
-          {
-            uuid: util.uuid(),
-            code: '1010.23.45',
-            length: 1,
-            width: 1.5,
-            height: 1.5
-          },{
-            uuid: util.uuid(),
-            code: '1010.23.12',
-            length: 1,
-            width: 1,
-            height: 1
+            height: 1,
+            count: 1
           },
           {
             uuid: util.uuid(),
-            code: '1010.23.45',
-            length: 1,
-            width: 1.5,
-            height: 1.5
-          },{
-            uuid: util.uuid(),
-            code: '1010.23.12',
-            length: 1,
-            width: 1,
-            height: 1
+            code: '1521 10 000 0',
+            length: 0.5,
+            width: 0.5,
+            height: 0.5,
+            count: 1
           },
           {
             uuid: util.uuid(),
-            code: '1010.23.45',
-            length: 1,
-            width: 1.5,
-            height: 1.5
+            code: '1602 49 110 0',
+            length: 0.5,
+            width: 0.5,
+            height: 0.5,
+            count: 1
           }
         ]
       };
@@ -118,9 +73,10 @@
         vm.data.products.push({
           uuid: util.uuid(),
           code: '',
-          length: 1000,
-          width: 1000,
-          height: 1000
+          length: 1,
+          width: 1,
+          height: 1,
+          count: 1
         })
       }
 

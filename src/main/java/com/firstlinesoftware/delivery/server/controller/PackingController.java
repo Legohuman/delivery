@@ -10,12 +10,9 @@ import org.tirnak.binpacking.model.Box;
 import org.tirnak.binpacking.model.Container;
 import org.tirnak.binpacking.service.PackingService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -29,26 +26,26 @@ public class PackingController {
     }
 
     private static List<Box> getBoxes(PaymentInfo.ContainerType type, List<Box> boxesNotPacked) {
-            Container dimensions = new Container(
-                    (int) (type.getWidth() * 1000),
-                    (int) (type.getHeight() * 1000),
-                    (int) (type.getLength() * 1000));
+        Container dimensions = new Container(
+                (int) (type.getWidth() * 1000),
+                (int) (type.getHeight() * 1000),
+                (int) (type.getLength() * 1000));
 
-            PackingService service = new Calculator();
-            return service.pack(boxesNotPacked, dimensions);
+        PackingService service = new Calculator();
+        return service.pack(boxesNotPacked, dimensions);
     }
 
     public static void packContainers(RoutingContext ctx) {
-        JsonArray JsonBoxes = ctx.getBodyAsJsonArray();
-        List<Box> boxesToPack = JsonBoxes.stream().map(
-                obj -> {
-                        JsonObject jsonObject = (JsonObject) obj;
-                        return Box.newBuilder().setXd((int) (jsonObject.getDouble("width") * 1000))
-                                .setYd((int) (jsonObject.getDouble("length") * 1000))
-                                .setZd((int) (jsonObject.getDouble("height") * 1000)).build();
-
-
-                }).collect(Collectors.toList());
+        JsonArray jsonBoxes = ctx.getBodyAsJsonArray();
+        List<Box> boxesToPack = new ArrayList<>();
+        for (Object obj : jsonBoxes) {
+            JsonObject jsonObject = (JsonObject) obj;
+            for (int i = 0; i < jsonObject.getInteger("count"); i++) {
+                boxesToPack.add(Box.newBuilder().setXd((int) (jsonObject.getDouble("width") * 1000))
+                        .setYd((int) (jsonObject.getDouble("length") * 1000))
+                        .setZd((int) (jsonObject.getDouble("height") * 1000)).build());
+            }
+        }
 
         JsonArray containersJson = new JsonArray();
 
@@ -68,9 +65,7 @@ public class PackingController {
                 });
 
 
-
-
-            ctx.response().end(containersJson.getJsonObject(0).encode());
+        ctx.response().end(containersJson.getJsonObject(0).encode());
 
 //        ctx.response().end("{\"contanerSize\":[5898,2287,2698]," +
 //                "\"containerNum\":1," +

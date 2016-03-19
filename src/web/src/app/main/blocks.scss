@@ -58,9 +58,41 @@ $purple: #6B85E6;
 }
 
 .forms {
-  background: $greenblue;
+  background: linear-gradient(0deg, #B3D1FF, #40B8EA);
+  height: inherit;
+  padding-bottom: 20px;
+}
+
+.product-table {
+  margin-top: 30px;
+}
+
+.product-table-row {
+  margin-bottom: 10px;
+}
+
+.product-table-header {
+  color: #fefefe;
+}
+
+.txt-center {
+  text-align: center;
 }
 
 .result {
   background: $purple;
+}
+
+.render-container {
+  position: relative;
+}
+
+.render-container-hint {
+  position: absolute;
+  display: inline-block;
+  right: 30px;
+  bottom: 30px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: #fefefe;
+  font-size: 12px;
 }

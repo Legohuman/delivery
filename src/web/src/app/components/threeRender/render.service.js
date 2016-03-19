@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -24,10 +24,10 @@
         init();
         animate();
       },
-      update: function (packingData) {
+      update: function (packingData, boxCount) {
         data = packingData;
         removeUpdatableObjects();
-        addUpdatableObjects();
+        addUpdatableObjects(boxCount);
         render();
       }
     };
@@ -117,15 +117,14 @@
       scene.add(mesh);
     }
 
-    function addUpdatableObjects() {
+    function addUpdatableObjects(boxCount) {
       if (data && data.contanerSize && data.placementData) {
         for (var ci = 0; ci < data.placementData.length; ci++) {
           var widthOffset = ci * data.contanerSize[0] / scaleFactor * 1.3;
 
           addBox([0, 0, 0], data.contanerSize, getContainerMaterial(), false, widthOffset);
 
-          for (var bi = 0; bi < data.placementData[ci].length; bi++) {
-
+          for (var bi = 0; bi < data.placementData[ci].length && (!boxCount || bi < boxCount); bi++) {
 
             addBox(data.placementData[ci][bi].start, data.placementData[ci][bi].end, getBoxMaterial(boxColors[bi % boxColors.length]), false, widthOffset);
           }
