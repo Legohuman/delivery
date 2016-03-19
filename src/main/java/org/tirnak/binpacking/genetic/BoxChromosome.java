@@ -5,6 +5,8 @@ import org.apache.commons.math3.genetics.AbstractListChromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 import org.tirnak.binpacking.Calculator;
 import org.tirnak.binpacking.model.Box;
+import org.tirnak.binpacking.model.Container;
+import org.tirnak.binpacking.service.PackingService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,24 @@ import java.util.stream.Collectors;
  * Created by kise0116 on 14.03.2016.
  */
 public class BoxChromosome extends AbstractListChromosome<Box> {
+
+    public Calculator getCalculator() {
+        return calculator;
+    }
+
+    private Calculator calculator;
+
+    public static BoxChromosome getNewInstance(List<Box> boxes, Calculator calculator) {
+        BoxChromosome toReturn = new BoxChromosome(boxes);
+        toReturn.setCalculator(calculator);
+        return toReturn;
+    }
+
+    private void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
+    }
+
+
 
     /**
      * Constructor.
@@ -43,7 +63,7 @@ public class BoxChromosome extends AbstractListChromosome<Box> {
 
     @Override
     public AbstractListChromosome<Box> newFixedLengthChromosome(List<Box> list) {
-        return new BoxChromosome(list);
+        return BoxChromosome.getNewInstance(list, calculator);
     }
 
     /**
@@ -61,7 +81,7 @@ public class BoxChromosome extends AbstractListChromosome<Box> {
      */
     @Override
     public double fitness() {
-        Calculator calculator = Calculator._instance;
         return 1 / calculator.calculateAndUnset(getRepresentation());
     }
+
 }

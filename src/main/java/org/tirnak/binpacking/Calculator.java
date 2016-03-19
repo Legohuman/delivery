@@ -112,7 +112,8 @@ public class Calculator implements PackingService {
     public static List<Container> placeBox(Container container, Box box) {
         List<Container> containers = new ArrayList<>();
 
-        int minGap = box.getMinGapAndRotate(container);
+        int justForRotation = box.getMinGapAndRotate(container);
+        box.setCoord(container.x0, container.y0, container.z0);
         int gaps[] = new int[3];
         gaps[0] = container.xd - box.xd;
         gaps[1] = container.yd - box.yd;
@@ -158,7 +159,7 @@ public class Calculator implements PackingService {
     public static Container findFittestSpace(List<Container> containers, Box box) {
         containers.stream().filter(s -> s.fitAnyhow(box));
         return containers.stream().filter(s -> s.fitAnyhow(box))
-                .min((a, b) -> box.getMinGap(a) -box.getMinGap(b))
+                .min((a, b) -> box.getMinGap(a) - box.getMinGap(b))
                 .get();
     }
 
@@ -167,7 +168,9 @@ public class Calculator implements PackingService {
         this.spacex = container.xd;
         this.spacey = container.yd;
         this.spacez = container.zd;
-        return Optimizer.main(boxes);
+        List<Box> optimalSeq = Optimizer.main(boxes, this);
+        this.calculate(optimalSeq);
+        return optimalSeq;
     }
 }
 

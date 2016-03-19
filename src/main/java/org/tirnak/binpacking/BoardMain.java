@@ -57,7 +57,7 @@ class BoardMain extends JComponent {
 //        }
 
         Calculator._instance = new Calculator(spacexd, spaceyd, spacezd);
-        myComponent.boxes = Optimizer.main(myComponent.boxes);
+        myComponent.boxes = Optimizer.main(myComponent.boxes, new Calculator(spacexd, spaceyd, spacezd));
         int containers = Calculator._instance.calculate(myComponent.boxes);
         LOG.debug(() -> containers + " containers needed");
         int delay = 1000; //milliseconds

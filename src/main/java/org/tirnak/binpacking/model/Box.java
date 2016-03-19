@@ -13,6 +13,7 @@ public class Box extends Volume implements Cloneable {
     private static AtomicInteger indexer = new AtomicInteger();
 
     public int container = -1;
+    private int weight;
 
     public void setContainer(int container) {
         this.container = container;
@@ -31,6 +32,7 @@ public class Box extends Volume implements Cloneable {
         this.xd = xd;
         this.yd = yd;
         this.zd = zd;
+        this.id = indexer.getAndIncrement();
     }
 
     public Box(int xd, int yd, int zd, int id) {
@@ -153,7 +155,7 @@ public class Box extends Volume implements Cloneable {
         public Builder setXd (int xd) {Box.this.xd = xd;return this;}
         public Builder setYd (int yd) {Box.this.yd = yd;return this;}
         public Builder setZd (int zd) {Box.this.zd = zd;return this;}
-        public Builder setWeight (int zd) {Box.this.zd = zd;return this;}
+        public Builder setWeight (int zd) {Box.this.weight = zd;return this;}
 
         public Box build() {
             Box.this.id = indexer.getAndIncrement();

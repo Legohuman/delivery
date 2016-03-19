@@ -1,6 +1,7 @@
 package org.tirnak.binpacking.genetic;
 
 import org.apache.commons.math3.genetics.*;
+import org.tirnak.binpacking.Calculator;
 import org.tirnak.binpacking.model.Box;
 
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class Optimizer {
     private static final double MUTATION_RATE = 0.1;
     private static final int TOURNAMENT_ARITY = 5;
 
-    public static List<Box> main(List<Box> boxes) {// initialize a new org.genetic algorithm
+    public static List<Box> main(List<Box> boxes, Calculator calculator) {// initialize a new org.genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(
                 new OrderedCrossover<>(),
                 CROSSOVER_RATE,
@@ -30,7 +31,7 @@ public class Optimizer {
                 new TournamentSelection(TOURNAMENT_ARITY)
         );
 
-        Population initial = getInitialPopulation(boxes);
+        Population initial = getInitialPopulation(boxes, calculator);
 
         StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
 
@@ -39,13 +40,13 @@ public class Optimizer {
         return ((BoxChromosome) finalPopulation.getFittestChromosome()).getRepresentation();
     }
 
-    private static Population getInitialPopulation(List<Box> boxes) {
+    private static Population getInitialPopulation(List<Box> boxes, Calculator calculator) {
         List<Chromosome> popList = new LinkedList<>();
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
             List<Box> newSequence = boxes.stream().map(Box::CloneNonApi).collect(Collectors.toList());
             Collections.shuffle(newSequence);
-            popList.add(new BoxChromosome(newSequence));
+            popList.add(BoxChromosome.getNewInstance(newSequence, calculator));
         }
         return new ElitisticListPopulation(popList, popList.size(), ELITISM_RATE);
     }

@@ -13,8 +13,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
  * User: Legohuman
  * Date: 06/03/16
  */
-public class ExcelEmskAviaProcessor {
-
+public class ExcelEmskAviaProcessor extends ExcelSegmentBasedProcessor {
 
     public static final String transport_code_emsk = "emsk";
     private final Storage storage;
@@ -23,7 +22,6 @@ public class ExcelEmskAviaProcessor {
     private ConcurrentNavigableMap<TransportRateKey, Double> transportRates;
     private ConcurrentNavigableMap<TransportFnKey, String> transportFunctions;
     private ConcurrentNavigableMap<Integer, City> cities;
-    private ConcurrentNavigableMap<Integer, SegmentVal> segments;
 
 
     public ExcelEmskAviaProcessor(Storage storage) {
@@ -65,8 +63,8 @@ public class ExcelEmskAviaProcessor {
 
                 int fromCode = fromCity.getCityCode();
                 int toCode = toCity.getCityCode();
-                segments.put(fromCode, new SegmentVal(fromCode, toCode, TransportType.air, transport_code_emsk));
-                segments.put(toCode, new SegmentVal(toCode, fromCode, TransportType.air, transport_code_emsk));
+                addSegment(fromCode, new SegmentVal(fromCode, toCode, TransportType.air, transport_code_emsk));
+                addSegment(toCode, new SegmentVal(toCode, fromCode, TransportType.air, transport_code_emsk));
             } else {
                 System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s", fromCity, toCity, from, to);
             }

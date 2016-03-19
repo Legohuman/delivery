@@ -454,7 +454,7 @@ THREE.TrackballControls = function (object, domElement) {
     }
 
     function mousewheel(event) {
-        if (_this.enabled === false || !event.ctrlKey) return;
+      if (_this.enabled === false || !event.shiftKey) return;
 
         var delta = 0;
 

@@ -22,8 +22,8 @@ public class PaymentInfo {
 
     public enum ContainerType {
         с20ft(5.87, 2.33, 2.35),
-        c40ft(12, 2.33, 2.35),
-        none(0, 0, 0);
+        c40ft(12, 2.33, 2.35);//,
+//        none(0, 0, 0);
 
         private double length;
         private double width;
@@ -37,6 +37,18 @@ public class PaymentInfo {
 
         public double getVolume() {
             return length * width * height;
+        }
+
+        public double getLength() {
+            return length;
+        }
+
+        public double getWidth() {
+            return width;
+        }
+
+        public double getHeight() {
+            return height;
         }
     }
 
