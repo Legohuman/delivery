@@ -10,17 +10,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Stream;
 
 public class Calculator {
     private static final Logger LOG = LogManager.getLogger(Calculator.class);
     public static Calculator _instance;
     public int spacex;
     public int spacey;
+    public int spacez;
 
-    public Calculator(int spacex, int spacey) {
+    public Calculator(int spacex, int spacey, int spacez) {
         this.spacex = spacex;
         this.spacey = spacey;
+        this.spacez = spacez;
     }
 
     private static boolean debug = true;
@@ -36,7 +37,7 @@ public class Calculator {
         List<Space> containers = new ArrayList<>();
         int spaceIndex = 0;
         do {
-            Space currentContainer = new Space(0, 0, spacex, spacey);
+            Space currentContainer = new Space(0, 0, 0, spacex, spacey, spacez);
             containers.add(currentContainer);
 
             List<Space> tempSpaces = new LinkedList<>();
@@ -80,13 +81,13 @@ public class Calculator {
         int result = calculate(boxesToPack);
         for (Box box : boxesToPack) {
             box.setContainer(-1);
-            box.setCoord(0, 0);
+            box.setCoord(0, 0, 0);
         }
         return result;
     }
 
     private boolean boxesDontFit(List<Box> boxes) {
-        Space tempSpace = new Space(0, 0, spacex, spacey);
+        Space tempSpace = new Space(0, 0, 0, spacex, spacey, spacez);
         return !boxes.stream().allMatch(tempSpace::fitAnyhow);
     }
 
@@ -106,37 +107,46 @@ public class Calculator {
 
     public static List<Space> placeBox(Space space, Box box) {
         List<Space> spaces = new ArrayList<>();
-        int sx1 = space.xd - box.xd;
-        int sy1 = space.yd - box.yd;
-        int sx2 = space.xd - box.yd;
-        int sy2 = space.yd - box.xd;
-        int minc = Stream.of(sx1, sx2, sy1, sy2).filter(i -> i >= 0).min(Integer::compare).get();
-        if ((minc == sx2 || minc == sy2) && space.fitRotated(box)) {
-            box.rotate();
-        }
-        box.setCoord(space.x0, space.y0);
-        int xdd = space.xd - box.xd;
-        int ydd = space.yd - box.yd;
-        if (xdd > ydd) {
-            if (space.yd - box.yd > 0) {
-                spaces.add(new Space(space.x0, space.y0 + box.yd, box.xd, space.yd - box.yd));
+
+        int minGap = box.getMinGapAndRotate(space);
+        int gaps[] = new int[3];
+        gaps[0] = space.xd - box.xd;
+        gaps[1] = space.yd - box.yd;
+        gaps[2] = space.zd - box.zd;
+        if (space.xd - box.xd == gaps[2]) {
+            spaces.add(new Space(space.x0 + box.xd, space.y0, space.z0, space.xd - box.xd, space.yd, space.zd));
+            if (space.zd - box.zd == gaps[0]) {
+                spaces.add(new Space(space.x0, space.y0, space.z0 + box.zd, box.xd, box.yd, space.zd - box.zd));
+                spaces.add(new Space(space.x0, space.y0 + box.yd, space.z0, space.xd - box.xd, space.yd - box.yd, space.zd));
+            } else {
+                spaces.add(new Space(space.x0, space.y0 + box.yd, space.z0, box.xd, space.yd - box.yd, box.zd));
+                spaces.add(new Space(space.x0, space.y0, space.z0 + box.zd, box.xd, space.yd, space.zd - box.zd));
             }
-            if (space.xd - box.xd > 0) {
-                spaces.add(new Space(space.x0 + box.xd, space.y0, space.xd - box.xd, space.yd));
+        } else if (space.yd - box.yd == gaps[2]) {
+            spaces.add(new Space(space.x0, space.y0 + box.yd, space.z0, space.xd, space.yd, space.zd - box.xd));
+            if (space.xd - box.xd == gaps[0]) {
+                spaces.add(new Space(space.x0 + box.xd, space.y0, space.z0, space.xd - box.xd, box.yd, box.zd));
+                spaces.add(new Space(space.x0, space.y0, space.z0 + box.zd, space.xd, box.yd, space.zd - box.zd));
+            } else {
+                spaces.add(new Space(space.x0 + box.xd, space.y0, space.z0, space.xd - box.xd, box.yd, space.zd));
+                spaces.add(new Space(space.x0, space.y0, space.z0 + box.zd, box.xd, box.yd, space.zd - box.zd));
             }
         } else {
-            if (space.yd - box.yd > 0) {
-                spaces.add(new Space(space.x0, space.y0 + box.yd, space.xd, space.yd - box.yd));
-            }
-            if (space.xd - box.xd > 0) {
-                spaces.add(new Space(space.x0 + box.xd, space.y0, space.xd - box.xd, box.yd));
+            spaces.add(new Space(space.x0, space.y0, space.z0 + box.zd, space.xd, space.yd, space.zd - box.zd));
+            if (space.xd - box.xd == gaps[0]) {
+                spaces.add(new Space(space.x0 + box.xd, space.y0, space.z0, space.xd - box.xd, box.yd, box.zd));
+                spaces.add(new Space(space.x0, space.y0 + box.yd, space.z0, space.xd, space.yd - box.yd, box.zd));
+            } else {
+                spaces.add(new Space(space.x0 + box.xd, space.y0, space.z0, space.xd - box.xd, space.yd, box.zd));
+                spaces.add(new Space(space.x0, space.y0 + box.yd, space.z0, box.xd, space.yd - box.yd, box.zd));
             }
         }
+
         if (debug) {
-            int areaExpected = space.getArea();
-            int areaActual = spaces.stream().mapToInt(Area::getArea).sum() +
+            int volExpected = space.getVolume();
+            int volActual = spaces.stream().mapToInt(Area::getVolume).sum() +
                     box.xd * box.yd;
-            LOG.debug(() -> "expected: " + areaExpected + ", actual: " + areaActual);
+            LOG.debug(() -> "expected: " + volExpected + ", actual: " + volActual);
         }
         return spaces;
     }
@@ -144,7 +154,7 @@ public class Calculator {
     public static Space findFittestSpace(List<Space> spaces, Box box) {
         spaces.stream().filter(s -> s.fitAnyhow(box));
         return spaces.stream().filter(s -> s.fitAnyhow(box))
-                .min((a, b) -> a.findMinSpace(box) - b.findMinSpace(box))
+                .min((a, b) -> box.getMinGap(a) -box.getMinGap(b))
                 .get();
     }
 

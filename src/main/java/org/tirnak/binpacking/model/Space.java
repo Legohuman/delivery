@@ -1,39 +1,24 @@
 package org.tirnak.binpacking.model;
 
-import java.util.Collections;
-import java.util.stream.Stream;
-
 /**
  * Created by kirill on 12.03.16.
  */
 public class Space extends Area {
 
-    public Space(int x0, int y0, int xd, int yd) {
+
+    public Space(int x0, int y0, int z0, int xd, int yd, int zd) {
+        this.z0 = z0;
         this.x0 = x0;
         this.y0 = y0;
+        this.zd = zd;
         this.xd = xd;
         this.yd = yd;
     }
 
-    public Space(int xd, int yd) {
+    public Space(int xd, int yd, int zd) {
         this.xd = xd;
         this.yd = yd;
-    }
-
-    public int findMinSpace(Box box) {
-        if (!fitAnyhow(box)) {
-            throw new RuntimeException(box + "doesn't fit anyhow");
-        }
-        Integer[] spaces = Collections.nCopies(4, Integer.MAX_VALUE).toArray(new Integer[0]);
-        if (fit(box)) {
-            spaces[0] = xd - box.xd;
-            spaces[1] = yd - box.yd;
-        }
-        if (fitRotated(box)) {
-            spaces[2] = xd - box.yd;
-            spaces[3] = yd - box.xd;
-        }
-        return Stream.of(spaces).min((a, b) -> a - b).get();
+        this.zd = zd;
     }
 
 
