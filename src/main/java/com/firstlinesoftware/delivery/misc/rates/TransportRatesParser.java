@@ -32,6 +32,9 @@ public class TransportRatesParser {
     private SimpleProcessMessagesHolder messagesHolder = new SimpleProcessMessagesHolder();
 
     private final Consumer<ExcelCityDto> cityConsumer;
+    private final Consumer<ExcelDimensionBasedTransportRateDto> emskAviaConsumer;
+    private final Consumer<ExcelDimensionBasedTransportRateDto> emskRzdConsumer;
+    private final Consumer<ExcelContainerTypeTransportRateDto> fescoShipConsumer;
 
     private Map<CellCoordinate, String> initCityColumns() {
         HashMap<CellCoordinate, String> columns = new HashMap<>();
@@ -74,15 +77,21 @@ public class TransportRatesParser {
 
     public static void main(String[] args) {
         Storage storage = new Storage();
-        ExcelCityProcessor dtoProcessor = new ExcelCityProcessor(storage);
+        ExcelCityProcessor cityProcessor = new ExcelCityProcessor(storage);
+        ExcelEmskAviaProcessor emskAviaProcessor = new ExcelEmskAviaProcessor(storage);
+        ExcelEmskRzdProcessor emskRzdProcessor = new ExcelEmskRzdProcessor(storage);
+        ExcelFescoShipProcessor fescoShipProcessor = new ExcelFescoShipProcessor(storage);
 
 //        storage.remove();
         storage.open();
 
-        dtoProcessor.init(); //always after opening storage
+        cityProcessor.init(); //always after opening storage
 
         storage.doInTransaction(() -> {
-            TransportRatesParser parser = new TransportRatesParser(dtoProcessor::process);
+            TransportRatesParser parser = new TransportRatesParser(cityProcessor::process,
+                    emskAviaProcessor::process,
+                    emskRzdProcessor::process,
+                    fescoShipProcessor::process);
             parser.parse();
             System.out.format("Items processed");
 
@@ -95,8 +104,14 @@ public class TransportRatesParser {
         storage.close();
     }
 
-    public TransportRatesParser(Consumer<ExcelCityDto> cityConsumer) {
+    public TransportRatesParser(Consumer<ExcelCityDto> cityConsumer,
+                                Consumer<ExcelDimensionBasedTransportRateDto> emskAviaConsumer,
+                                Consumer<ExcelDimensionBasedTransportRateDto> emskRzdConsumer,
+                                Consumer<ExcelContainerTypeTransportRateDto> fescoShipConsumer) {
         this.cityConsumer = cityConsumer;
+        this.emskAviaConsumer = emskAviaConsumer;
+        this.emskRzdConsumer = emskRzdConsumer;
+        this.fescoShipConsumer = fescoShipConsumer;
     }
 
     private void parse() {
@@ -108,6 +123,9 @@ public class TransportRatesParser {
                 Workbook wb = new XSSFWorkbook(in);
 
                 processCitySheet(wb);
+                processEmskAviaSheet(wb);
+                processEmskRzdSheet(wb);
+                processFescoShipSheet(wb);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -136,17 +154,65 @@ public class TransportRatesParser {
         Sheet sheet = wb.getSheetAt(1);
 
         ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
-        ExcelCityDto dto = null;
+
+        ExcelDimensionBasedTransportRateDto dto = null;
         while (!isEmpty(dto)) {
-            dto = container.readItem(ExcelCityDto.class, group, messagesHolder);
+            dto = container.readItem(ExcelDimensionBasedTransportRateDto.class, group, messagesHolder);
             if (!isEmpty(dto)) {
-                cityConsumer.accept(dto);
+                emskAviaConsumer.accept(dto);
+            }
+        }
+    }
+
+    private void processEmskRzdSheet(Workbook wb) {
+        CellGroup group = initCellGroup(initEmskRailColumns());
+        Sheet sheet = wb.getSheetAt(2);
+
+        ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
+
+        ExcelDimensionBasedTransportRateDto dto = null;
+        while (!isEmpty(dto)) {
+            dto = container.readItem(ExcelDimensionBasedTransportRateDto.class, group, messagesHolder);
+            if (!isEmpty(dto)) {
+                emskRzdConsumer.accept(dto);
+            }
+        }
+    }
+
+    private void processFescoShipSheet(Workbook wb) {
+        CellGroup group = initCellGroup(initEmskRailColumns());
+        Sheet sheet = wb.getSheetAt(3);
+
+        ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
+
+        ExcelContainerTypeTransportRateDto dto = null;
+        while (!isEmpty(dto)) {
+            dto = container.readItem(ExcelContainerTypeTransportRateDto.class, group, messagesHolder);
+            if (!isEmpty(dto)) {
+                fescoShipConsumer.accept(dto);
             }
         }
     }
 
     private boolean isEmpty(ExcelCityDto dto) {
         return dto != null && StringUtils.isBlank(dto.getCode()) && StringUtils.isBlank(dto.getName());
+    }
+
+    private boolean isEmpty(ExcelDimensionBasedTransportRateDto dto) {
+        return dto != null && StringUtils.isBlank(dto.getFromCode())
+                && StringUtils.isBlank(dto.getToCode())
+                && StringUtils.isBlank(dto.getMinCost())
+                && StringUtils.isBlank(dto.getWeightRate())
+                && StringUtils.isBlank(dto.getVolumeRate())
+                && StringUtils.isBlank(dto.getDuration());
+    }
+
+    private boolean isEmpty(ExcelContainerTypeTransportRateDto dto) {
+        return dto != null && StringUtils.isBlank(dto.getFromCode())
+                && StringUtils.isBlank(dto.getToCode())
+                && StringUtils.isBlank(dto.getContainerRate())
+                && StringUtils.isBlank(dto.getContainerType())
+                && StringUtils.isBlank(dto.getDuration());
     }
 
     @NotNull
