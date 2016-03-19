@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,6 +85,9 @@ public class TransportRatesParser {
         storage.open();
 
         cityProcessor.init(); //always after opening storage
+        emskAviaProcessor.init(); //always after opening storage
+        emskRzdProcessor.init(); //always after opening storage
+        fescoShipProcessor.init(); //always after opening storage
 
         storage.doInTransaction(() -> {
             TransportRatesParser parser = new TransportRatesParser(cityProcessor::process,
@@ -119,7 +121,7 @@ public class TransportRatesParser {
         File ratesArchive = new File(miscFolder, dictFileName);
 
         if (ratesArchive.exists()) {
-            try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(ratesArchive))) {
+            try (BufferedInputStream in = new BufferedInputStream(new FilprocesseInputStream(ratesArchive))) {
                 Workbook wb = new XSSFWorkbook(in);
 
                 processCitySheet(wb);
@@ -180,7 +182,7 @@ public class TransportRatesParser {
     }
 
     private void processFescoShipSheet(Workbook wb) {
-        CellGroup group = initCellGroup(initEmskRailColumns());
+        CellGroup group = initCellGroup(initFescoShipColumns());
         Sheet sheet = wb.getSheetAt(3);
 
         ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
