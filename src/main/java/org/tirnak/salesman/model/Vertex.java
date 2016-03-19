@@ -1,8 +1,14 @@
 package org.tirnak.salesman.model;
 
 /**
- * Created by kise0116 on 15.03.2016.
+ * User: Legohuman
+ * Date: 18/03/16
  */
-public class Vertex {
-    private int id;
+public interface Vertex extends Fittable {
+
+    int getCityCode();
+
+    String getCityName();
+
+    String getCountry();
 }

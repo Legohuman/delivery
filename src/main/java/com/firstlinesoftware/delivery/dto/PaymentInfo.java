@@ -1,9 +1,8 @@
 package com.firstlinesoftware.delivery.dto;
 
-import com.firstlinesoftware.delivery.calc.route.api.TransportType;
-import com.firstlinesoftware.delivery.calc.route.api.Vertex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.tirnak.salesman.model.Vertex;
 
 import java.time.LocalDate;
 import java.util.*;

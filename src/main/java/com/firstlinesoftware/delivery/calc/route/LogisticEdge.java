@@ -2,9 +2,8 @@ package com.firstlinesoftware.delivery.calc.route;
 
 import com.firstlinesoftware.delivery.calc.ImportProductCalc;
 import com.firstlinesoftware.delivery.calc.TransportCalc;
-import com.firstlinesoftware.delivery.calc.route.api.Edge;
-import com.firstlinesoftware.delivery.calc.route.api.Fittable;
-import com.firstlinesoftware.delivery.calc.route.api.Vertex;
+import org.tirnak.salesman.model.Edge;
+import org.tirnak.salesman.model.Vertex;
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.dto.ProductInfo;
 import com.firstlinesoftware.delivery.dto.SegmentInfo;
@@ -18,7 +17,7 @@ import java.util.List;
  * User: Legohuman
  * Date: 18/03/16
  */
-public class LogisticEdge implements Edge, Fittable {
+public class LogisticEdge implements Edge {
 
     @NotNull
     private final Storage storage;
