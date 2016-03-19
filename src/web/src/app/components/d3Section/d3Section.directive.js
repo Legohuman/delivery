@@ -34,10 +34,13 @@
     return directive;
 
     /** @ngInject */
-    function D3Controller(CalculationService, RenderService, $scope, util) {
+    function D3Controller(CalculationService, RenderService, util) {
       var vm = this;
+      vm.addProduct = addProduct;
+      vm.paint = paint;
+      vm.deleteProduct = deleteProduct;
 
-      $scope.data = {
+      vm.data = {
         products: [
           {
             uuid: util.uuid(),
@@ -111,8 +114,23 @@
         ]
       };
 
+      function addProduct() {
+        $scope.data.products.push({
+          uuid: util.uuid(),
+          code: '',
+          length: 1000,
+          width: 1000,
+          height: 1000
+        })
+      }
 
-      vm.paint = paint;
+      function deleteProduct(uuid) {
+        var elemIndex = $scope.data.products.findIndex(function (e) {
+          return e.uuid === uuid;
+        });
+        $scope.data.products.splice(elemIndex, 1);
+      }
+
 
       function paint() {
         CalculationService.calculatePacking($scope.data.products).then(function (response) {

@@ -1,3 +1,27 @@
-.acme-navbar-text{
-  color: white;
+.navbar {
+  background: #fff;
+  color: #000;
+  border-bottom: none;
 }
+
+.navbar-nav {
+  font-size: 3rem;
+
+  > li > a {
+    padding: 4rem;
+  }
+
+  a {
+    color: #000;
+    border-bottom: 5px solid #fff;
+
+    &:hover{
+      border-bottom-color: $header-active;
+      background-color: #fff !important;
+    }
+  }
+  .active a {
+    border-bottom-color: $header-active;
+  }
+}
+

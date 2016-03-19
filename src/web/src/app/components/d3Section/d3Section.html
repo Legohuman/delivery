@@ -1,4 +1,82 @@
-<button ng-click="vm.paint()" class="btn btn-default">Show</button>
-<div id="container" class="render-container">
-  <span class="render-container-hint">Ctrl + scroll to zoom. Left click + drag to rotate. Right click + drag to pan.</span>
-</div>
+<section class="forms row" id="two">
+  <div layout="column" ng-cloak>
+    <form name="productTableForm">
+      <div id="productTable" class="item-table" ng-repeat="product in vm.products">
+        <div layout-gt-sm="row">
+
+          <!--<md-input-container class="md-block" flex-gt-sm>-->
+            <!--<label>Code</label>-->
+            <!--<input md-maxlength="30" required name="code" ng-model="product.code">-->
+
+            <!--<div ng-messages="productTableForm.code.$error">-->
+              <!--<div ng-message="required">This is required.</div>-->
+            <!--</div>-->
+          <!--</md-input-container>-->
+
+          <!--<md-input-container class="md-block" flex-gt-sm>-->
+            <!--<label>Length</label>-->
+            <!--<input required type="number" step="any" name="length" ng-model="product.length" min="0"-->
+                   <!--max="5898"/>-->
+
+            <!--<div ng-messages="projectForm.rate.$error" multiple md-auto-hide="false">-->
+              <!--<div ng-message="required"> This is required.</div>-->
+              <!--<div ng-message="min">-->
+                <!--Length should be more than zero-->
+              <!--</div>-->
+              <!--<div ng-message="max">-->
+                <!--Length should be less than 5898-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</md-input-container>-->
+
+          <!--<md-input-container class="md-block" flex-gt-sm>-->
+            <!--<label>Width</label>-->
+            <!--<input required type="number" step="any" name="width" ng-model="product.width" min="0"-->
+                   <!--max="2287"/>-->
+
+            <!--<div ng-messages="projectForm.rate.$error" multiple md-auto-hide="false">-->
+              <!--<div ng-message="required"> This is required.</div>-->
+              <!--<div ng-message="min">-->
+                <!--Width should be more than zero-->
+              <!--</div>-->
+              <!--<div ng-message="max">-->
+                <!--Width should be less than 2287-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</md-input-container>-->
+
+          <!--<md-input-container class="md-block" flex-gt-sm>-->
+            <!--<label>Height</label>-->
+            <!--<input required type="number" step="any" name="width" ng-model="product.height" min="0"-->
+                   <!--max="2698"/>-->
+
+            <!--<div ng-messages="projectForm.rate.$error" multiple md-auto-hide="false">-->
+              <!--<div ng-message="required"> This is required.</div>-->
+              <!--<div ng-message="min">-->
+                <!--Height should be more than zero-->
+              <!--</div>-->
+              <!--<div ng-message="max">-->
+                <!--Height should be less than 2698-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</md-input-container>-->
+          <!--<md-button class="md-fab md-mini md-warn" aria-label="Delete product">-->
+            <!--<md-icon class="material-icons step" ng-class="md-18"-->
+                     <!--ng-click="vm.deleteProduct(vm.product.uuid)">delete-->
+            <!--</md-icon>-->
+          <!--</md-button>-->
+        </div>
+      </div>
+    </form>
+
+    <button class="md-raised md-primary" ng-click="vm.addProduct()">Add product</button>
+    <button class="md-raised md-primary" ng-click="vm.calculatePacking()">Find packing and route</button>
+  </div>
+</section>
+
+<section class="d3 row" id="three">
+  <button ng-click="vm.paint()" class="btn btn-default">Show</button>
+  <div id="container" class="render-container">
+    <span class="render-container-hint">Ctrl + scroll to zoom. Left click + drag to rotate. Right click + drag to pan.</span>
+  </div>
+</section>
