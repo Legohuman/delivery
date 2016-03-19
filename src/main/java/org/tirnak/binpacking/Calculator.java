@@ -2,21 +2,25 @@ package org.tirnak.binpacking;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.tirnak.binpacking.genetic.Optimizer;
 import org.tirnak.binpacking.model.Box;
 import org.tirnak.binpacking.model.Container;
 import org.tirnak.binpacking.model.Volume;
+import org.tirnak.binpacking.service.PackingService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Calculator {
+public class Calculator implements PackingService {
     private static final Logger LOG = LogManager.getLogger(Calculator.class);
     public static Calculator _instance;
     public int spacex;
     public int spacey;
     public int spacez;
+
+    public Calculator() {}
 
     public Calculator(int spacex, int spacey, int spacez) {
         this.spacex = spacex;
@@ -158,5 +162,12 @@ public class Calculator {
                 .get();
     }
 
+    @Override
+    public List<Box> pack(List<Box> boxes, Container container) {
+        this.spacex = container.xd;
+        this.spacey = container.yd;
+        this.spacez = container.zd;
+        return Optimizer.main(boxes);
+    }
 }
 

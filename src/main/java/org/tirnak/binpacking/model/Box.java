@@ -26,9 +26,6 @@ public class Box extends Volume implements Cloneable {
         return container == -1;
     }
 
-    public Box() {
-
-    }
 
     public Box(int xd, int yd, int zd) {
         this.xd = xd;
@@ -145,7 +142,7 @@ public class Box extends Volume implements Cloneable {
     }
 
     public static Builder newBuilder() {
-        return new Box().new Builder();
+        return new Box(0,0,0).new Builder();
     }
 
     public class Builder {
