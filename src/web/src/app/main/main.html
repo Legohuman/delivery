@@ -3,10 +3,22 @@
   <acme-navbar creation-date="main.creationDate"></acme-navbar>
 
   <section class="landing row" id="one">
-    <h1>
-      get started
-    </h1>
-    <a href="#" class="bnt-down"></a>
+    <div class="info-container">
+      <h1 class="app-name">Cargo Mind</h1>
+
+      <h2 class="app-motto">Умный помощник в доставке грузов</h2>
+
+      <div class="feature-container">
+        <div class="feature-one">
+          Оптимальная раскладка товаров в транспортных контейнерах может быть сложной вычислительной задачей. Применение
+          генетических алгоритмов дает отличные результаты.
+        </div>
+        <div class="feature-two">
+          Планирование доставки товаров из одной точки мира в другую сложно выполнить вручную. Автоматический поиск
+          наилучшего маршрута учитывает множество факторов и сэкономит ваши время и деньги.
+        </div>
+      </div>
+    </div>
   </section>
   <d3-section></d3-section>
   <section class="map row">
@@ -16,9 +28,11 @@
         margin: 0;
         padding: 0;
       }
+
       #map {
         height: 100%;
       }
+
       #floating-panel {
         position: absolute;
         top: 10px;
@@ -28,12 +42,13 @@
         padding: 5px;
         border: 1px solid #999;
         text-align: center;
-        font-family: 'Roboto','sans-serif';
+        font-family: 'Roboto', 'sans-serif';
         line-height: 30px;
         padding-left: 10px;
       }
+
       #right-panel {
-        font-family: 'Roboto','sans-serif';
+        font-family: 'Roboto', 'sans-serif';
         line-height: 30px;
         padding-left: 10px;
       }
@@ -49,15 +64,18 @@
       #right-panel i {
         font-size: 12px;
       }
+
       #right-panel {
         height: 100%;
         float: right;
         width: 390px;
         overflow: auto;
       }
+
       #map {
         margin-right: 400px;
       }
+
       #floating-panel {
         background: #fff;
         padding: 5px;
@@ -67,11 +85,13 @@
         box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
         display: none;
       }
+
       @media print {
         #map {
           height: 500px;
           margin: 0;
         }
+
         #right-panel {
           float: none;
           width: auto;
@@ -129,7 +149,7 @@
         control.style.display = 'block';
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
 
-        var onChangeHandler = function() {
+        var onChangeHandler = function () {
           calculateAndDisplayRoute(directionsService, directionsDisplay);
         };
         document.getElementById('start').addEventListener('change', onChangeHandler);
@@ -143,7 +163,7 @@
           origin: start,
           destination: end,
           travelMode: google.maps.TravelMode.DRIVING
-        }, function(response, status) {
+        }, function (response, status) {
           if (status === google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
           } else {
@@ -160,32 +180,31 @@
   </section>
 
 
-
   <!--<div class="jumbotron text-center">-->
-    <!--<h1>'Allo, 'Allo!</h1>-->
-    <!--<p class="lead">-->
-      <!--<img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>-->
-      <!--Always a pleasure scaffolding your apps.-->
-    <!--</p>-->
-    <!--<p class="animated infinite" ng-class="main.classAnimation">-->
-      <!--<button type="button" class="btn btn-lg btn-success" ng-click="main.showToastr()">Splendid Toastr</button>-->
-    <!--</p>-->
-    <!--<p>-->
-      <!--With ♥ thanks to the contributions of<acme-malarkey extra-values="['Yeoman', 'Gulp', 'Angular']"></acme-malarkey>-->
-    <!--</p>-->
+  <!--<h1>'Allo, 'Allo!</h1>-->
+  <!--<p class="lead">-->
+  <!--<img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>-->
+  <!--Always a pleasure scaffolding your apps.-->
+  <!--</p>-->
+  <!--<p class="animated infinite" ng-class="main.classAnimation">-->
+  <!--<button type="button" class="btn btn-lg btn-success" ng-click="main.showToastr()">Splendid Toastr</button>-->
+  <!--</p>-->
+  <!--<p>-->
+  <!--With ♥ thanks to the contributions of<acme-malarkey extra-values="['Yeoman', 'Gulp', 'Angular']"></acme-malarkey>-->
+  <!--</p>-->
   <!--</div>-->
 
   <!--<div class="row">-->
-    <!--<div class="col-sm-6 col-md-4" ng-repeat="awesomeThing in main.awesomeThings | orderBy:'rank'">-->
-      <!--<div class="thumbnail">-->
-        <!--<img class="pull-right" ng-src="assets/images/{{ awesomeThing.logo }}" alt="{{ awesomeThing.title }}">-->
-        <!--<div class="caption">-->
-          <!--<h3>{{ awesomeThing.title }}</h3>-->
-          <!--<p>{{ awesomeThing.description }}</p>-->
-          <!--<p><a ng-href="{{awesomeThing.url}}">{{ awesomeThing.url }}</a></p>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+  <!--<div class="col-sm-6 col-md-4" ng-repeat="awesomeThing in main.awesomeThings | orderBy:'rank'">-->
+  <!--<div class="thumbnail">-->
+  <!--<img class="pull-right" ng-src="assets/images/{{ awesomeThing.logo }}" alt="{{ awesomeThing.title }}">-->
+  <!--<div class="caption">-->
+  <!--<h3>{{ awesomeThing.title }}</h3>-->
+  <!--<p>{{ awesomeThing.description }}</p>-->
+  <!--<p><a ng-href="{{awesomeThing.url}}">{{ awesomeThing.url }}</a></p>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
   <!--</div>-->
 
 </div>

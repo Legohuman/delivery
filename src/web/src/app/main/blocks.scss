@@ -1,18 +1,66 @@
-$pink:    #F80365;
-$yellow:    #FCC900;
-$greenblue:   #6CEAF9;
-$purple:   #6B85E6;
+$pink: #F80365;
+$yellow: #FCC900;
+$greenblue: #6CEAF9;
+$purple: #6B85E6;
 
 .landing {
   background: url(../../assets/images/fon.jpg) center right;
   background-size: cover;
   background-repeat: no-repeat;
+  margin-top: 100px;
 }
 
-.forms{
+.info-container {
+  width: 1300px;
+  margin: 0 auto;
+}
+
+.app-name {
+  color: #fefefe;
+  text-align: center;
+  margin-top: 140px;
+  font-size: 56px;
+}
+
+.app-motto {
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.feature-container {
+  margin-top: 30px;
+  position: relative;
+  height: 100px;
+}
+
+.feature-one {
+  position: absolute;
+  left: 230px;
+  top: 0;
+  width: 320px;
+  color: #fefefe;
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: left;
+
+}
+
+.feature-two {
+  position: absolute;
+  right: 230px;
+  top: 0;
+  width: 320px;
+  color: #fefefe;
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.forms {
   background: $greenblue;
 }
 
-.result{
+.result {
   background: $purple;
 }
