@@ -7,6 +7,7 @@ import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.ConcurrentNavigableMap;
 
 /**
@@ -134,7 +135,7 @@ public class Storage {
             return db.treeMap(MapNames.cities.name());
         }
 
-        public ConcurrentNavigableMap<Integer, SegmentVal> segments() {
+        public ConcurrentNavigableMap<Integer, List<SegmentVal>> segments() {
             return db.treeMap(MapNames.segments.name());
         }
 

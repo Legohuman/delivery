@@ -4,3 +4,11 @@ target/*
 **/bower_components/*
 *.iml
 *.ipr
+
+src/web/node_modules/
+src/web/bower_components/
+src/web/coverage/
+src/web/.sass-cache/
+src/web/.idea/
+src/web/.tmp/
+src/web/dist/

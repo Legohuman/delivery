@@ -13,8 +13,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
  * User: Legohuman
  * Date: 06/03/16
  */
-public class ExcelEmskRzdProcessor {
-
+public class ExcelEmskRzdProcessor extends ExcelSegmentBasedProcessor {
 
     public static final String transport_code_emsk = "emsk";
     private final Storage storage;
@@ -23,7 +22,6 @@ public class ExcelEmskRzdProcessor {
     private ConcurrentNavigableMap<TransportRateKey, Double> transportRates;
     private ConcurrentNavigableMap<TransportFnKey, String> transportFunctions;
     private ConcurrentNavigableMap<Integer, City> cities;
-    private ConcurrentNavigableMap<Integer, SegmentVal> segments;
 
 
     public ExcelEmskRzdProcessor(Storage storage) {
@@ -67,13 +65,13 @@ public class ExcelEmskRzdProcessor {
 
                 int fromCode = fromCity.getCityCode();
                 int toCode = toCity.getCityCode();
-                segments.put(fromCode, new SegmentVal(fromCode, toCode, TransportType.rail, transport_code_emsk));
-                segments.put(toCode, new SegmentVal(toCode, fromCode, TransportType.rail, transport_code_emsk));
+                addSegment(fromCode, new SegmentVal(fromCode, toCode, TransportType.rail, transport_code_emsk));
+                addSegment(toCode, new SegmentVal(toCode, fromCode, TransportType.rail, transport_code_emsk));
             } else {
-                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s", fromCity, toCity, from, to);
+                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s\n", fromCity, toCity, from, to);
             }
         } else {
-            System.out.format("Not full row %s", dto);
+            System.out.format("Not full row %s\n", dto);
         }
     }
 

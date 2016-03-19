@@ -86,6 +86,9 @@ public class TransportRatesParser {
         storage.open();
 
         cityProcessor.init(); //always after opening storage
+        emskAviaProcessor.init(); //always after opening storage
+        emskRzdProcessor.init(); //always after opening storage
+        fescoShipProcessor.init(); //always after opening storage
 
         storage.doInTransaction(() -> {
             TransportRatesParser parser = new TransportRatesParser(cityProcessor::process,
@@ -180,7 +183,7 @@ public class TransportRatesParser {
     }
 
     private void processFescoShipSheet(Workbook wb) {
-        CellGroup group = initCellGroup(initEmskRailColumns());
+        CellGroup group = initCellGroup(initFescoShipColumns());
         Sheet sheet = wb.getSheetAt(3);
 
         ItemContainer container = itemContainerFactory.createItemContainer(sheet, new CellCoordinate(0, 1));
