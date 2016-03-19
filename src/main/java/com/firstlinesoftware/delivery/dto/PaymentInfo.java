@@ -1,9 +1,8 @@
 package com.firstlinesoftware.delivery.dto;
 
-import com.firstlinesoftware.delivery.calc.route.api.TransportType;
-import com.firstlinesoftware.delivery.calc.route.api.Vertex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.tirnak.salesman.model.Vertex;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -22,9 +21,23 @@ public class PaymentInfo {
     }
 
     public enum ContainerType {
-        с20ft,
-        c40ft,
-        none
+        с20ft(5.87, 2.33, 2.35),
+        c40ft(12, 2.33, 2.35),
+        none(0, 0, 0);
+
+        private double length;
+        private double width;
+        private double height;
+
+        ContainerType(double length, double width, double height) {
+            this.length = length;
+            this.width = width;
+            this.height = height;
+        }
+
+        public double getVolume() {
+            return length * width * height;
+        }
     }
 
     public enum FitnessProperty {
@@ -41,8 +54,6 @@ public class PaymentInfo {
     private Vertex origin;
 
     private Vertex destination;
-
-    private TransportType transportType;
 
     private LocalDate date;
 
@@ -92,14 +103,6 @@ public class PaymentInfo {
 
     public void setDestination(Vertex destination) {
         this.destination = destination;
-    }
-
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
     }
 
     public LocalDate getDate() {

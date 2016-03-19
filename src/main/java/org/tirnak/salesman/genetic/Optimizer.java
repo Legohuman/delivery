@@ -2,6 +2,7 @@ package org.tirnak.salesman.genetic;
 
 import org.apache.commons.math3.genetics.*;
 import org.tirnak.salesman.model.Edge;
+import org.tirnak.salesman.model.Vertex;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ public class Optimizer {
     private static final double MUTATION_RATE = 0.1;
     private static final int TOURNAMENT_ARITY = 5;
 
-    public static List<Edge> main(List<Edge> route) {// initialize a new org.genetic algorithm
+    public static List<Edge> main(Vertex from, Vertex to) {// initialize a new org.genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(
                 new OrderedCrossover<>(),
                 CROSSOVER_RATE,
@@ -30,13 +31,14 @@ public class Optimizer {
                 new TournamentSelection(TOURNAMENT_ARITY)
         );
 
-        Population initial = getInitialPopulation(route);
+        /*Population initial = getInitialPopulation(route);
 
         StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
 
-        Population finalPopulation = ga.evolve(initial, stopCond);
+        Population finalPopulation = ga.evolve(initial, stopCond);*/
 
-        return ((RouteChromosome) finalPopulation.getFittestChromosome()).getRepresentation();
+//        return ((RouteChromosome) finalPopulation.getFittestChromosome()).getRepresentation();
+        return Collections.emptyList();
     }
 
     private static Population getInitialPopulation(List<Edge> route) {

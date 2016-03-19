@@ -1,6 +1,13 @@
 package com.firstlinesoftware.delivery.server.controller;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.tirnak.binpacking.model.Box;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * User: Legohuman
@@ -9,6 +16,18 @@ import io.vertx.ext.web.RoutingContext;
 public class PackingController {
 
     public static void packContainers(RoutingContext ctx) {
+            JsonArray JsonBoxes = ctx.getBodyAsJsonArray();
+            List<Box> boxesToPack = JsonBoxes.stream().map(
+                    obj -> {
+                            JsonObject jsonObject = (JsonObject) obj;
+                            return new Box(jsonObject.getInteger("width"),
+                                    jsonObject.getInteger("length"),
+                                    jsonObject.getInteger("height"));
+
+                    }).collect(Collectors.toList());
+
+
+
         ctx.response().end("{\"contanerSize\":[5898,2287,2698]," +
                 "\"containerNum\":1," +
                 "\"placementData\":[" +

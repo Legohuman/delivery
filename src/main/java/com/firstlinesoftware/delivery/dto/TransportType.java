@@ -1,4 +1,4 @@
-package com.firstlinesoftware.delivery.calc.route.api;
+package com.firstlinesoftware.delivery.dto;
 
 /**
  * User: Legohuman

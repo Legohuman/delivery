@@ -21,7 +21,7 @@ public class TransportCalc extends AbstractCalc {
 
     @Override
     public Double calculate(ProductInfo productInfo, PaymentInfo paymentInfo, SegmentInfo segmentInfo) {
-        EvalContextImpl context = initContext(productInfo, paymentInfo);
+        EvalContextImpl context = initContext(productInfo, paymentInfo, segmentInfo);
 
         TransportFnKey fnKey = new TransportFnKey(segmentInfo.getFrom(), segmentInfo.getTo(), segmentInfo.getTransportType(), segmentInfo.getCompany());
         String transportFn = storage.maps().transportFunctions().get(fnKey);

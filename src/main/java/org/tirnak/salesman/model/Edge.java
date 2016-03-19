@@ -1,14 +1,12 @@
 package org.tirnak.salesman.model;
 
-
 /**
- * Created by kise0116 on 15.03.2016.
+ * User: Legohuman
+ * Date: 18/03/16
  */
-public class Edge {
-    private Vertex[] vertices;
+public interface Edge extends Fittable {
 
-    public Vertex getOther(Vertex one) {
-        return vertices[0].equals(one) ? vertices[1] : vertices[0];
-    }
+    Vertex getForm();
 
+    Vertex getTo();
 }

@@ -1,4 +1,4 @@
-package com.firstlinesoftware.delivery.calc.route.api;
+package org.tirnak.salesman.model;
 
 /**
  * User: Legohuman

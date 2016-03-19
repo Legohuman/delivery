@@ -1,9 +1,8 @@
 package com.firstlinesoftware.delivery.dto;
 
-import com.firstlinesoftware.delivery.calc.route.api.TransportType;
-import com.firstlinesoftware.delivery.calc.route.api.Vertex;
 import com.firstlinesoftware.delivery.util.CityCodeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.tirnak.salesman.model.Vertex;
 
 import java.io.Serializable;
 

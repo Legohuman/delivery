@@ -75,4 +75,16 @@ public class ExcelDimensionBasedTransportRateDto {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "ExcelDimensionBasedTransportRateDto{" +
+                "fromCode='" + fromCode + '\'' +
+                ", toCode='" + toCode + '\'' +
+                ", minCost='" + minCost + '\'' +
+                ", weightRate='" + weightRate + '\'' +
+                ", volumeRate='" + volumeRate + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
+    }
 }

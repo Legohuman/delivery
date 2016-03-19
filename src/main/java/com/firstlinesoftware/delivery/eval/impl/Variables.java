@@ -2,6 +2,7 @@ package com.firstlinesoftware.delivery.eval.impl;
 
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.dto.ProductInfo;
+import com.firstlinesoftware.delivery.dto.SegmentInfo;
 import com.firstlinesoftware.delivery.eval.api.EvalContext;
 import com.firstlinesoftware.delivery.eval.api.Variable;
 import org.jetbrains.annotations.NotNull;
@@ -18,13 +19,14 @@ public enum Variables {
     product_ptv,
     payment,
     payment_type,
-    payment_receiver;
+    payment_receiver,
+    segment;
 
     public String alias() {
         return Variable.prefix + this.name();
     }
 
-    public static void initContext(@NotNull EvalContext context, @NotNull ProductInfo productInfo, @NotNull PaymentInfo paymentInfo) {
+    public static void initContext(@NotNull EvalContext context, @NotNull ProductInfo productInfo, @NotNull PaymentInfo paymentInfo, SegmentInfo segmentInfo) {
         context.var(product.name(), productInfo.getProduct());
         context.var(product_code.name(), productInfo.getProduct().getCode());
         context.var(product_cost.name(), productInfo.getCost());
@@ -33,5 +35,6 @@ public enum Variables {
         context.var(payment.name(), paymentInfo);
         context.var(payment_type.name(), paymentInfo.getType().name());
         context.var(payment_receiver.name(), paymentInfo.getReceiver());
+        context.var(segment.name(), segmentInfo);
     }
 }
