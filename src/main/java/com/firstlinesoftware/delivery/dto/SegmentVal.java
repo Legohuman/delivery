@@ -34,4 +34,14 @@ public class SegmentVal implements Serializable {
     public String getCompany() {
         return company;
     }
+
+    @Override
+    public String toString() {
+        return "SegmentVal{" +
+                "from=" + from +
+                ", to=" + to +
+                ", transportType=" + transportType +
+                ", company='" + company + '\'' +
+                '}';
+    }
 }
