@@ -1,10 +1,10 @@
 package com.firstlinesoftware.delivery.storage.map;
 
 import com.firstlinesoftware.delivery.dto.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
  */
 public class Storage {
 
-    Logger log = LoggerFactory.getLogger(Storage.class);
+    Logger log = LogManager.getLogger(Storage.class);
 
     public static final String dataFolder = "data";
     public static final String dbFileName = "delivery";
