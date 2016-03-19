@@ -2,7 +2,7 @@ package com.firstlinesoftware.delivery.calc;
 
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.dto.ProductInfo;
-import com.firstlinesoftware.delivery.eval.api.EvalContext;
+import com.firstlinesoftware.delivery.dto.SegmentInfo;
 
 /**
  * User: Legohuman
@@ -10,5 +10,5 @@ import com.firstlinesoftware.delivery.eval.api.EvalContext;
  */
 public interface PaymentCalc {
 
-    Double calculate(ProductInfo productInfo, PaymentInfo paymentInfo);
+    Double calculate(ProductInfo productInfo, PaymentInfo paymentInfo, SegmentInfo segmentInfo);
 }

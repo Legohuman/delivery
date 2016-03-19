@@ -1,10 +1,12 @@
 package com.firstlinesoftware.delivery.dto;
 
+import com.firstlinesoftware.delivery.calc.route.api.TransportType;
+import com.firstlinesoftware.delivery.calc.route.api.Vertex;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: Legohuman
@@ -25,21 +27,39 @@ public class PaymentInfo {
         none
     }
 
+    public enum FitnessProperty {
+        time,
+        money
+    }
+
+    private FitnessProperty fitnessProperty;
+
     private PaymentType type;
 
     private String receiver;
 
-    private String originCityCode;
+    private Vertex origin;
 
-    private String destinationCityCode;
+    private Vertex destination;
 
-    private TransportRateKey.TransportType transportType;
+    private TransportType transportType;
 
     private LocalDate date;
 
     private Map<ContainerType, Integer> containers = new HashMap<>();
 
+    @Nullable
+    private List<ProductInfo> products;
+
     public PaymentInfo() {
+    }
+
+    public FitnessProperty getFitnessProperty() {
+        return fitnessProperty;
+    }
+
+    public void setFitnessProperty(FitnessProperty fitnessProperty) {
+        this.fitnessProperty = fitnessProperty;
     }
 
     public PaymentType getType() {
@@ -58,27 +78,27 @@ public class PaymentInfo {
         this.receiver = receiver;
     }
 
-    public String getOriginCityCode() {
-        return originCityCode;
+    public Vertex getOrigin() {
+        return origin;
     }
 
-    public void setOriginCityCode(String originCityCode) {
-        this.originCityCode = originCityCode;
+    public void setOrigin(Vertex origin) {
+        this.origin = origin;
     }
 
-    public String getDestinationCityCode() {
-        return destinationCityCode;
+    public Vertex getDestination() {
+        return destination;
     }
 
-    public void setDestinationCityCode(String destinationCityCode) {
-        this.destinationCityCode = destinationCityCode;
+    public void setDestination(Vertex destination) {
+        this.destination = destination;
     }
 
-    public TransportRateKey.TransportType getTransportType() {
+    public TransportType getTransportType() {
         return transportType;
     }
 
-    public void setTransportType(TransportRateKey.TransportType transportType) {
+    public void setTransportType(TransportType transportType) {
         this.transportType = transportType;
     }
 
@@ -105,5 +125,14 @@ public class PaymentInfo {
 
     public Map<ContainerType, Integer> getContainers() {
         return new HashMap<>(containers);
+    }
+
+    @Nullable
+    public List<ProductInfo> getProducts() {
+        return Collections.unmodifiableList(products);
+    }
+
+    public void setProducts(@Nullable List<ProductInfo> products) {
+        this.products = new ArrayList<>(products);
     }
 }

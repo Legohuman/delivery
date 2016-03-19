@@ -24,7 +24,7 @@ public class ImportProductCalcTest {
         PaymentInfo paymentInfo = new PaymentInfo();
         paymentInfo.setReceiver("ru");
         paymentInfo.setType(PaymentInfo.PaymentType.imp);
-        double payment = new ImportProductCalc(storage).calculate(productInfo, paymentInfo);
+        double payment = new ImportProductCalc(storage).calculate(productInfo, paymentInfo, null);
         System.out.println(payment);
         assertEquals(16d, payment,  1e-6);
 

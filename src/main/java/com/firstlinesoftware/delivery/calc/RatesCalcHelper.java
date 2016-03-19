@@ -54,7 +54,7 @@ public class RatesCalcHelper {
                 PaymentInfo payment = context.var(Variables.payment.name());
                 return payment.getContainers().entrySet().stream()
                         .mapToDouble(e -> {
-                            TransportRateKey rateKey = new TransportRateKey(payment.getOriginCityCode(), payment.getDestinationCityCode(),
+                            TransportRateKey rateKey = new TransportRateKey(payment.getOrigin(), payment.getDestination(),
                                     payment.getTransportType(), payment.getReceiver(), "cntType", e.getKey().toString());
                             return e.getValue() * storage.maps().transportRates().get(rateKey);
                         }).sum();

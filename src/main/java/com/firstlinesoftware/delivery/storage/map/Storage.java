@@ -101,6 +101,7 @@ public class Storage {
         product,
         importRates,
         transportRates,
+        transportFunctions,
         importPayments,
         cities,
         functions
@@ -120,11 +121,15 @@ public class Storage {
             return db.treeMap(MapNames.transportRates.name());
         }
 
+        public ConcurrentNavigableMap<TransportFnKey, String> transportFunctions() {
+            return db.treeMap(MapNames.transportFunctions.name());
+        }
+
         public ConcurrentNavigableMap<ImportPaymentKey, String> importPaymentRules() {
             return db.treeMap(MapNames.importPayments.name());
         }
 
-        public ConcurrentNavigableMap<Long, City> cities() {
+        public ConcurrentNavigableMap<Integer, City> cities() {
             return db.treeMap(MapNames.cities.name());
         }
 

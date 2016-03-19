@@ -1,5 +1,8 @@
 package com.firstlinesoftware.delivery.dto;
 
+import com.firstlinesoftware.delivery.calc.route.api.TransportType;
+import com.firstlinesoftware.delivery.calc.route.api.Vertex;
+import com.firstlinesoftware.delivery.util.CityCodeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,10 +13,6 @@ import java.io.Serializable;
  * Date: 05/03/16
  */
 public class TransportRateKey implements Serializable, Comparable<TransportRateKey> {
-
-    public enum TransportType {
-        road, rail, air, sea
-    }
 
     @NotNull
     private final String origin;
@@ -36,9 +35,9 @@ public class TransportRateKey implements Serializable, Comparable<TransportRateK
     @Nullable
     private final String variant;
 
-    public TransportRateKey(@NotNull String origin, @NotNull String destination, @NotNull TransportType transportType, @NotNull String companyCode, @NotNull String prop, @Nullable String variant) {
-        this.origin = origin;
-        this.destination = destination;
+    public TransportRateKey(@NotNull Vertex origin, @NotNull Vertex destination, @NotNull TransportType transportType, @NotNull String companyCode, @NotNull String prop, @Nullable String variant) {
+        this.origin = CityCodeUtil.padCityCode(origin.getCityCode());
+        this.destination = String.valueOf(destination.getCityCode());
         this.transportType = transportType;
         this.companyCode = companyCode;
         this.prop = prop;
@@ -56,7 +55,7 @@ public class TransportRateKey implements Serializable, Comparable<TransportRateK
     }
 
     @NotNull
-    public TransportRateKey.TransportType getTransportType() {
+    public TransportType getTransportType() {
         return transportType;
     }
 

@@ -6,18 +6,20 @@ package com.firstlinesoftware.delivery.misc.rates.dto;
  */
 public class ExcelCityDto {
     public enum Fileds {
-        code, name
+        code, name, countryCode
     }
 
     private String code;
     private String name;
+    private String countryCode;
 
     public ExcelCityDto() {
     }
 
-    public ExcelCityDto(String code, String name) {
+    public ExcelCityDto(String code, String name, String countryCode) {
         this.code = code;
         this.name = name;
+        this.countryCode = countryCode;
     }
 
     public String getCode() {
@@ -36,11 +38,20 @@ public class ExcelCityDto {
         this.name = name;
     }
 
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
     @Override
     public String toString() {
-        return "ExcelImportRateDto{" +
+        return "ExcelCityDto{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
+                ", countryCode='" + countryCode + '\'' +
                 '}';
     }
 }

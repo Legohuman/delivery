@@ -36,6 +36,7 @@ public class TransportRatesParser {
         HashMap<CellCoordinate, String> columns = new HashMap<>();
         columns.put(new CellCoordinate(0, 0), ExcelCityDto.Fileds.code.name());
         columns.put(new CellCoordinate(1, 0), ExcelCityDto.Fileds.name.name());
+        columns.put(new CellCoordinate(2, 0), ExcelCityDto.Fileds.countryCode.name());
         return columns;
     }
 

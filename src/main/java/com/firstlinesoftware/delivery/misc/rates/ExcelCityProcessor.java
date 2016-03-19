@@ -18,7 +18,7 @@ public class ExcelCityProcessor {
     private final Storage storage;
 
     private boolean initialized;
-    private ConcurrentNavigableMap<Long, City> cities;
+    private ConcurrentNavigableMap<Integer, City> cities;
 
 
     public ExcelCityProcessor(Storage storage) {
@@ -38,15 +38,16 @@ public class ExcelCityProcessor {
             throw new IllegalStateException("City processor was not initialized");
         }
 
-        Long code = NumberParser.parseLong(dto.getCode());
+        Integer code = NumberParser.parseInt(dto.getCode());
         String name = StringUtils.trimToEmpty(dto.getName());
+        String countryCode = StringUtils.trimToNull(dto.getCountryCode());
         int commentStartTokenIndex = name.indexOf('(');
         if (commentStartTokenIndex > -1) {
             name = StringUtils.trimToNull(name.substring(0, commentStartTokenIndex));
         }
 
-        if (code != null && name != null) {
-            City resultDto = new City(code, name);
+        if (code != null && name != null && countryCode != null) {
+            City resultDto = new City(code, name, countryCode);
             cities.put(code, resultDto);
             System.out.println(resultDto);
         } else {

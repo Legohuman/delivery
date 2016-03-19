@@ -8,16 +8,19 @@ import java.io.Serializable;
  */
 public class City implements Serializable {
 
-    private final Long code;
+    private final int code;
 
     private final String name;
 
-    public City(Long code, String name) {
+    private final String countryCode;
+
+    public City(int code, String name, String countryCode) {
         this.code = code;
         this.name = name;
+        this.countryCode = countryCode;
     }
 
-    public Long getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -31,6 +34,7 @@ public class City implements Serializable {
         return "City{" +
                 "code=" + code +
                 ", name='" + name + '\'' +
+                ", countryCode='" + countryCode + '\'' +
                 '}';
     }
 }

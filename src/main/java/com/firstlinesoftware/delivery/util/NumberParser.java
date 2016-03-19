@@ -23,4 +23,12 @@ public class NumberParser {
             return null;
         }
     }
+
+    public static Integer parseInt(String str) {
+        try {
+            return new Integer(StringUtils.trimToEmpty(str));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }
