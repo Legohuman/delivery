@@ -5,6 +5,7 @@ import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.RandomKey;
+import org.tirnak.binpacking.Calculator;
 import org.tirnak.binpacking.model.Box;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class MoveToHeadMutation implements MutationPolicy {
         Box toMove = repr.remove(rInd);
         repr.add(0, toMove);
 
-        return new BoxChromosome(repr);
+        return BoxChromosome.getNewInstance(repr, originalBC.getCalculator());
     }
 
 }
