@@ -1,0 +1,18 @@
+$pink:    #F80365;
+$yellow:    #FCC900;
+$greenblue:   #6CEAF9;
+$purple:   #6B85E6;
+
+.landing {
+  background: url(../../assets/images/fon.jpg) center right;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.forms{
+  background: $greenblue;
+}
+
+.result{
+  background: $purple;
+}
