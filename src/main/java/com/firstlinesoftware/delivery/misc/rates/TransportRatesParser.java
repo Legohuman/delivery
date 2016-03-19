@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -121,7 +122,7 @@ public class TransportRatesParser {
         File ratesArchive = new File(miscFolder, dictFileName);
 
         if (ratesArchive.exists()) {
-            try (BufferedInputStream in = new BufferedInputStream(new FilprocesseInputStream(ratesArchive))) {
+            try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(ratesArchive))) {
                 Workbook wb = new XSSFWorkbook(in);
 
                 processCitySheet(wb);
