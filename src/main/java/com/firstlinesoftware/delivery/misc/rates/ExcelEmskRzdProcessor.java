@@ -70,10 +70,10 @@ public class ExcelEmskRzdProcessor {
                 segments.put(fromCode, new SegmentVal(fromCode, toCode, TransportType.rail, transport_code_emsk));
                 segments.put(toCode, new SegmentVal(toCode, fromCode, TransportType.rail, transport_code_emsk));
             } else {
-                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s", fromCity, toCity, from, to);
+                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s\n", fromCity, toCity, from, to);
             }
         } else {
-            System.out.format("Not full row %s", dto);
+            System.out.format("Not full row %s\n", dto);
         }
     }
 

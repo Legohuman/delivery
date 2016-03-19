@@ -71,7 +71,7 @@ public class ExcelEmskAviaProcessor {
                 System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s", fromCity, toCity, from, to);
             }
         } else {
-            System.out.format("Not full row %s", dto);
+            System.out.format("Not full row %s\n", dto);
         }
     }
 

@@ -68,10 +68,10 @@ public class ExcelFescoShipProcessor {
                 segments.put(fromCode, new SegmentVal(fromCode, toCode, TransportType.sea, transport_code_fesco));
                 segments.put(toCode, new SegmentVal(toCode, fromCode, TransportType.sea, transport_code_fesco));
             } else {
-                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s", fromCity, toCity, from, to);
+                System.out.format("City is not found from: %s to: %s fromCode: %s toCode: %s\n", fromCity, toCity, from, to);
             }
         } else {
-            System.out.format("Not full row %s", dto);
+            System.out.format("Not full row %s\n", dto);
         }
     }
 
