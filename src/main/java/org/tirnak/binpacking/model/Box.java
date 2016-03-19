@@ -33,6 +33,7 @@ public class Box extends Area implements Cloneable {
     public Box(int xd, int yd, int zd) {
         this.xd = xd;
         this.yd = yd;
+        this.zd = zd;
     }
 
     public Box(int xd, int yd, int zd, int id) {
