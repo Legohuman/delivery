@@ -31,7 +31,7 @@
         <option value="22.3579355,113.9809323">Hong Kong</option>
         <option value="31.2246325,121.1965634">Shanghai</option>
         <option value="43.1738709,131.8957532">Владивосток</option>
-        <option value="59.9174925,30.0448835"> Санкт-Петербург</option>
+        <option value="59.9174925,30.0448835" selected> Санкт-Петербург</option>
         <option value="55.7498598,37.3523182"> Москва</option>
         <option value="54.9700492,82.6692277"> Новосибирск</option>
         <option value="49.6699392,117.2868733">Забайкальск</option>
@@ -39,13 +39,13 @@
       <br>
       <strong>End:</strong>
       <select id="end">
-        <option value="59.9174925,30.0448835"> Санкт-Петербург</option>
+        <option value="59.9174925,30.0448835" selected="selected"> Санкт-Петербург</option>
         <option value="22.3579355,113.9809323">Hong Kong</option>
         <option value="31.2246325,121.1965634">Shanghai</option>
         <option value="43.1738709,131.8957532">Владивосток</option>
         <option value="55.7498598,37.3523182"> Москва</option>
         <option value="54.9700492,82.6692277"> Новосибирск</option>
-        <option value="49.6699392,117.2868733">Забайкальск</option>
+        <option value="49.6699392,117.2868733" selected>Забайкальск</option>
       </select>
     </div>
     <div id="map"></div>
@@ -59,11 +59,10 @@
           center: {lat: 51.7149301, lng: 61.7846961}
         });
 
-        var default_start = "chicago, il";
-        var default_end = "st louis, mo";
+        var default_start = "59.9174925,30.0448835";
+        var default_end = "49.6699392,117.2868733";
 
         directionsDisplay.setMap(map);
-        directionsDisplay.setPanel(document.getElementById('right-panel'));
 
         var control = document.getElementById('floating-panel');
         control.style.display = 'block';
