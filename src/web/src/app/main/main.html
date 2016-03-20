@@ -8,11 +8,11 @@
       <h2>Умный помощник в доставке грузов</h2>
 
       <div class="row">
-        <div class="col-xs-4 col-xs-offset-1">
+        <div class="col-xs-6">
           Оптимальная раскладка товаров в транспортных контейнерах может быть сложной вычислительной задачей. Применение
           генетических алгоритмов дает отличные результаты.
         </div>
-        <div class="col-xs-4 col-xs-offset-2">
+        <div class="col-xs-6">
           Планирование доставки товаров из одной точки мира в другую сложно выполнить вручную. Автоматический поиск
           наилучшего маршрута учитывает множество факторов и сэкономит ваши время и деньги.
         </div>
@@ -24,114 +24,15 @@
   </section>
   <d3-section></d3-section>
   <section class="map row" id="four">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      #map {
-        height: 100%;
-      }
-
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto', 'sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-
-      #right-panel {
-        font-family: 'Roboto', 'sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-
-      #right-panel select, #right-panel input {
-        font-size: 15px;
-      }
-
-      #right-panel select {
-        width: 100%;
-      }
-
-      #right-panel i {
-        font-size: 12px;
-      }
-
-      #right-panel {
-        height: 100%;
-        float: right;
-        width: 390px;
-        overflow: auto;
-      }
-
-      #map {
-        margin-right: 400px;
-      }
-
-      #floating-panel {
-        background: #fff;
-        padding: 5px;
-        font-size: 14px;
-        font-family: Arial;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-        display: none;
-      }
-
-      @media print {
-        #map {
-          height: 500px;
-          margin: 0;
-        }
-
-        #right-panel {
-          float: none;
-          width: auto;
-        }
-      }
-    </style>
-
     <div id="floating-panel">
       <strong>Start:</strong>
-      <select id="start">
-        <option value="chicago, il">Chicago</option>
-        <option value="st louis, mo">St Louis</option>
-        <option value="joplin, mo">Joplin, MO</option>
-        <option value="oklahoma city, ok">Oklahoma City</option>
-        <option value="amarillo, tx">Amarillo</option>
-        <option value="gallup, nm">Gallup, NM</option>
-        <option value="flagstaff, az">Flagstaff, AZ</option>
-        <option value="winona, az">Winona</option>
-        <option value="kingman, az">Kingman</option>
-        <option value="barstow, ca">Barstow</option>
-        <option value="san bernardino, ca">San Bernardino</option>
-        <option value="los angeles, ca">Los Angeles</option>
+      <select id="start" ng-model="main.point_start">
+        <option ng-repeat="option in main.points" value="{{option.value}}">{{option.name}}</option>
       </select>
       <br>
       <strong>End:</strong>
-      <select id="end">
-        <option value="chicago, il">Chicago</option>
-        <option value="st louis, mo">St Louis</option>
-        <option value="joplin, mo">Joplin, MO</option>
-        <option value="oklahoma city, ok">Oklahoma City</option>
-        <option value="amarillo, tx">Amarillo</option>
-        <option value="gallup, nm">Gallup, NM</option>
-        <option value="flagstaff, az">Flagstaff, AZ</option>
-        <option value="winona, az">Winona</option>
-        <option value="kingman, az">Kingman</option>
-        <option value="barstow, ca">Barstow</option>
-        <option value="san bernardino, ca">San Bernardino</option>
-        <option value="los angeles, ca">Los Angeles</option>
+      <select id="end" ng-model="main.point_end">
+        <option ng-repeat="option in main.points" value="{{option.value}}">{{option.name}}</option>
       </select>
     </div>
     <div id="right-panel"></div>
@@ -144,12 +45,28 @@
           zoom: 7,
           center: {lat: 41.85, lng: -87.65}
         });
+
+        var default_start = "chicago, il";
+        var default_end = "st louis, mo";
+
         directionsDisplay.setMap(map);
         directionsDisplay.setPanel(document.getElementById('right-panel'));
 
         var control = document.getElementById('floating-panel');
         control.style.display = 'block';
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+        directionsService.route({
+          origin: default_start,
+          destination: default_end,
+          travelMode: google.maps.TravelMode.DRIVING
+        }, function (response, status) {
+          if (status === google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
 
         var onChangeHandler = function () {
           calculateAndDisplayRoute(directionsService, directionsDisplay);
@@ -188,6 +105,13 @@
 
       <div class="row">
         <div class="col-xs-12">
+          Стоимость транспортировки: <small>оптимальное соотношение цены и качества</small>
+        </div>
+        <div class="col-xs-12">
+          Таможенные платежи: <small>в пределах разумного</small>
+        </div>
+        <div class="col-xs-12">
+          Длительность перевозки: <small>оптимально быстро</small>
         </div>
       </div>
     </div>
