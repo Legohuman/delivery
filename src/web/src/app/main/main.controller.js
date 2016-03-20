@@ -6,13 +6,17 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController(toastr) {
     var vm = this;
 
     vm.creationDate = 1458385002457;
     vm.showToastr = showToastr;
 
-    angular.element(".btn-down").click(function(){
+    angular.element('a[href*=#]')
+      .on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate(
+          { scrollTop: $($(this).attr('href')).offset().top }, 700, 'linear');
     });
 
     //function initialize() {
@@ -64,14 +68,6 @@
     function showToastr() {
       toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
       vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
     }
   }
 })();

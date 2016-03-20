@@ -1,32 +1,30 @@
 <section class="forms row" id="two" ng-cloak>
   <div class="container product-table">
-    <form name="productTableForm" class="row">
-      <div class="row product-table-row product-table-header">
-        <div class="col-xs-2">
-        </div>
-        <div class="col-xs-6 txt-center">
-          Размеры коробки
-        </div>
-      </div>
-      <div class="row product-table-row product-table-header">
-        <div class="col-xs-2">
-          Код продукта
-        </div>
-        <div class="col-xs-2">
-          Длина
-        </div>
-        <div class="col-xs-2">
-          Ширина
-        </div>
-        <div class="col-xs-2">
-          Высота
-        </div>
-        <div class="col-xs-2">
-          Количество
+    <form name="productTableForm" class="row product-table-header">
+      <div class="col-xs-12">
+        <div class="row">
+          <h2 class="col-xs-12 txt-center">
+            Размеры коробки
+          </h2>
+          <div class="col-xs-2">
+            Код продукта
+          </div>
+          <div class="col-xs-2">
+            Длина
+          </div>
+          <div class="col-xs-2">
+            Ширина
+          </div>
+          <div class="col-xs-2">
+            Высота
+          </div>
+          <div class="col-xs-2">
+            Количество
+          </div>
         </div>
       </div>
 
-      <div id="productTable" class="item-table" ng-repeat="product in vm.data.products">
+      <div id="productTable" class="item-table row" ng-repeat="product in vm.data.products">
         <div class="row product-table-row">
           <div class="col-xs-2">
             <input type="text" class="form-control" placeholder="Код продукта" maxlength="30" name="code"
@@ -49,17 +47,15 @@
                    ng-model="product.count" min="0" max="100">
           </div>
           <div class="col-xs-2">
-            <button type="button" class="btn btn-default aria-label=" ng-click="vm.deleteProduct(product.uuid)">
+            <button type="button" class="btn btn-default btn-sm" ng-click="vm.deleteProduct(product.uuid)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-default" ng-click="vm.addProduct()">Добавить</button>
-          <button class="btn btn-primary" ng-click="vm.paint()">Упаковать коробки и построить маршрут</button>
-        </div>
+      <div class="row text-center">
+        <button class="btn btn-default" ng-click="vm.addProduct()">Добавить</button>
+        <button class="btn btn-default" ng-click="vm.paint()">Упаковать коробки и построить маршрут</button>
       </div>
 
     </form>
@@ -71,4 +67,7 @@
     <span class="render-container-hint">* Ctrl + скрол для увеличения. Левый клик + перенос для вращения. Правый клик + перенос для сдвига.
     </span>
   </div>
+  <a href="#four" class="btn btn-default scroll-btn">
+    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+  </a>
 </section>

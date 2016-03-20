@@ -10,57 +10,70 @@ $purple: #6B85E6;
   margin-top: 100px;
 }
 
-.info-container {
-  width: 1300px;
-  margin: 0 auto;
-}
-
-.app-name {
-  color: #fefefe;
+.landing-text{
   text-align: center;
-  margin-top: 140px;
-  font-size: 56px;
-}
-
-.app-motto {
-  color: #333;
-  text-align: center;
-  margin-top: 20px;
-}
-
-.feature-container {
-  margin-top: 30px;
-  position: relative;
-  height: 100px;
-}
-
-.feature-one {
+  color: #fff;
   position: absolute;
-  left: 230px;
+  transform: translate(50%, 50%);
   top: 0;
-  width: 320px;
-  color: #fefefe;
-  font-size: 16px;
-  margin-top: 20px;
-  text-align: left;
+  left: 0;
+  width: 50%;
+  font-size: 2rem;
 
+  h1 {
+    font-size: 7rem;
+  }
 }
 
-.feature-two {
+.btn-default {
+  padding-left: 50px;
+  padding-right: 50px;
+  white-space: normal;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 0;
+  padding: 15px;
+  font-size: 22px;
+  text-shadow: 0 1px 1px rgba(0,0,0,.15);
+  transition: background-color 200ms ease-in-out;
+  color: #fff;
+  background-color: $pink;
+  font-size: 22px;
+  border: none;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: #fff;
+    background-color: $yellow;
+  }
+
+  &.btn-sm {
+    font-size: 15px;
+    padding: 6px;
+  }
+}
+
+.scroll-btn {
   position: absolute;
-  right: 230px;
-  top: 0;
-  width: 320px;
-  color: #fefefe;
-  font-size: 16px;
-  margin-top: 20px;
-  text-align: left;
+  bottom: 150px;
+  right: 150px;
+  line-height: 3rem;
+  opacity: .3;
+  font-size: 4rem;
+  padding: 20px;
+  border-radius: 50%;
+  display: block;
 }
 
 .forms {
   background: linear-gradient(0deg, #B3D1FF, #40B8EA);
   height: inherit;
-  padding-bottom: 20px;
+  padding: 150px 0 20px;
+}
+
+.d3 {
+  height: 83vh;
 }
 
 .product-table {
@@ -81,6 +94,7 @@ $purple: #6B85E6;
 
 .result {
   background: $purple;
+  margin-top: 100px;
 }
 
 .render-container {
@@ -92,7 +106,7 @@ $purple: #6B85E6;
   display: inline-block;
   right: 30px;
   bottom: 30px;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  //font-family: Roboto, 'Helvetica Neue', sans-serif;
   color: #fefefe;
   font-size: 12px;
 }
