@@ -60,7 +60,7 @@ public class DeliveryServer extends AbstractVerticle {
         router.route("/assets/*").handler(StaticHandler.create("assets"));
         router.route("/web/*").handler(StaticHandler.create("src/web"));
 
-        router.post("/packing").handler(PackingController::packContainers);
+        router.post("/packing").handler(ctx -> PackingController.packContainers(ctx, vertx));
 
         server.requestHandler(router::accept)
                 .listen(8080, "0.0.0.0");
