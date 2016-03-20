@@ -99,7 +99,10 @@
         });
       }
 
-      RenderService.start();
+      setTimeout(function () {
+        RenderService.start();
+      }, 400);
+
     }
   }
 

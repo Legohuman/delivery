@@ -17,7 +17,9 @@
       data = {},
       updatableObjects = [],
       scaleFactor = 100,
-      boxColors = [0xe6b800, 0xffd633, 0x997300, 0xe6ac00, 0x4d3900, 0xff8000, 0x994d00];
+      boxColors = [0xe6b800, 0xffd633, 0x997300, 0xe6ac00, 0x4d3900, 0xff8000, 0x994d00],
+      planeTexture = new THREE.TextureLoader().load("assets/images/render/ground.jpg"),
+      boxTexture = new THREE.TextureLoader().load('assets/images/render/box_face.jpg');
 
     return {
       start: function () {
@@ -101,7 +103,7 @@
     }
 
     function addPlane() {
-      var texture = new THREE.TextureLoader().load("assets/images/render/ground.jpg");
+      var texture = planeTexture;
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(25, 25);
@@ -133,7 +135,7 @@
     }
 
     function getBoxMaterial(color) {
-      var texture = new THREE.TextureLoader().load('assets/images/render/box_face.jpg');
+      var texture = boxTexture;
       var material = new THREE.MeshPhongMaterial({map: texture, color: color});
       material.needsUpdate = true;
       return material;
