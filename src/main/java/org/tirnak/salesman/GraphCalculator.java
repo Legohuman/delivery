@@ -3,6 +3,7 @@ package org.tirnak.salesman;
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import org.tirnak.binpacking.model.Box;
 import org.tirnak.salesman.model.Edge;
+import org.tirnak.salesman.model.Graph;
 import org.tirnak.salesman.model.Vertex;
 import org.tirnak.salesman.service.GraphService;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class GraphCalculator implements GraphService {
 
     @Override
-    public List<Edge> getRoute(Vertex from, Vertex to, Map<PaymentInfo.ContainerType, List<Box>> typeToBoxes) {
+    public List<Edge> getRoute(Vertex from, Vertex to, Map<PaymentInfo.ContainerType, List<Box>> typeToBoxes, Graph graph) {
         return null;
     }
 }

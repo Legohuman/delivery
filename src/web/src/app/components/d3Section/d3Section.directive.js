@@ -89,7 +89,6 @@
 
 
       function paint() {
-        console.log(vm.data.products);
         CalculationService.calculatePacking(vm.data.products).then(function (response) {
           console.log(response.data);
           RenderService.update(response.data);

@@ -76,4 +76,16 @@ abstract public class Volume {
     public boolean equalsByDim(Volume a) {
         return xd == a.xd && yd == a.yd;
     }
+
+    @Override
+    public String toString() {
+        return "Volume{" +
+                "xd=" + xd +
+                ", yd=" + yd +
+                ", zd=" + zd +
+                ", x0=" + x0 +
+                ", y0=" + y0 +
+                ", z0=" + z0 +
+                '}';
+    }
 }

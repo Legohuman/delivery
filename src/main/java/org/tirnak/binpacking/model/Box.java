@@ -60,12 +60,11 @@ public class Box extends Volume implements Cloneable {
 
     @Override
     public String toString() {
-        return "org.model.Box{" +
-                "xd=" + xd +
-                ", yd=" + yd +
-                ", x0=" + x0 +
-                ", y0=" + y0 +
-                '}';
+        return "Box{" +
+                "id=" + id +
+                ", container=" + container +
+                ", weight=" + weight +
+                "} " + super.toString();
     }
 
     @Override
@@ -93,9 +92,9 @@ public class Box extends Volume implements Cloneable {
         int zx = volume.zd - xd;
         try {
             int minGap = Stream.of(xx,yy,zz,xz,yx,zy,xy,yz,zx).filter(i -> i >= 0).min(Integer::compare).get();
-            if (minGap == xx || minGap == yy || minGap == zz) {
+            if ((minGap == xx || minGap == yy || minGap == zz) && volume.fit(this)) {
                 // don't rotate
-            } else if (minGap == xz || minGap == yx || minGap == zy) {
+            } else if ((minGap == xz || minGap == yx || minGap == zy) && volume.fitRotated2(this)) {
                 rotate();
             } else {
                 rotate();rotate();

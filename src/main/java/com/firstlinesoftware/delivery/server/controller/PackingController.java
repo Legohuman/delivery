@@ -2,6 +2,7 @@ package com.firstlinesoftware.delivery.server.controller;
 
 import com.firstlinesoftware.delivery.dto.PaymentInfo;
 import com.firstlinesoftware.delivery.server.converter.BoxToJsonConverter;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -35,7 +36,7 @@ public class PackingController {
         return service.pack(boxesNotPacked, dimensions);
     }
 
-    public static void packContainers(RoutingContext ctx) {
+    public static void packContainers(RoutingContext ctx, Vertx vertx) {
         JsonArray jsonBoxes = ctx.getBodyAsJsonArray();
         List<Box> boxesToPack = new ArrayList<>();
         for (Object obj : jsonBoxes) {
@@ -47,25 +48,32 @@ public class PackingController {
             }
         }
 
-        JsonArray containersJson = new JsonArray();
-
-        Stream.of(PaymentInfo.ContainerType.values())
-                .forEach(type ->
-                {
-                    List<Box> boxes = getBoxes(type, boxesToPack);
-                    int containerNum = getContainersNum(boxes);
-                    JsonObject obj = new JsonObject();
-                    containersJson.add(new JsonObject()
-                            .put("contanerSize", Arrays.asList(new Integer[]{
-                                    (int) (type.getWidth() * 1000),
-                                    (int) (type.getHeight() * 1000),
-                                    (int) (type.getLength() * 1000)}))
-                            .put("containerNum", containerNum)
-                            .put("placementData", BoxToJsonConverter.convert(boxes)));
-                });
 
 
-        ctx.response().end(containersJson.getJsonObject(0).encode());
+        vertx.executeBlocking(future -> {
+                    JsonArray containersJson = new JsonArray();
+                    Stream.of(PaymentInfo.ContainerType.values())
+                            .forEach(type -> {
+                                List<Box> boxes = getBoxes(type, boxesToPack);
+                                int containerNum = getContainersNum(boxes);
+                                containersJson.add(new JsonObject()
+                                        .put("contanerSize", Arrays.asList(new Integer[]{
+                                                (int) (type.getWidth() * 1000),
+                                                (int) (type.getHeight() * 1000),
+                                                (int) (type.getLength() * 1000)}))
+                                        .put("containerNum", containerNum)
+                                        .put("placementData", BoxToJsonConverter.convert(boxes)));
+                            });
+
+                    future.complete(containersJson);
+
+                }, containersJson -> ctx.response().end(
+                        ((JsonArray) containersJson.result()).getJsonObject(0).encode())
+        );
+
+
+
+
 
 //        ctx.response().end("{\"contanerSize\":[5898,2287,2698]," +
 //                "\"containerNum\":1," +
