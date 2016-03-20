@@ -40,6 +40,8 @@
       vm.paint = paint;
       vm.deleteProduct = deleteProduct;
 
+      vm.loading = false;
+
       vm.data = {
         products: [
           {
@@ -89,9 +91,11 @@
 
 
       function paint() {
+        vm.loading = !vm.loading;
         CalculationService.calculatePacking(vm.data.products).then(function (response) {
           console.log(response.data);
           RenderService.update(response.data);
+          vm.loading = !vm.loading;
         });
       }
 
