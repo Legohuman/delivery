@@ -9,6 +9,7 @@ import org.tirnak.binpacking.model.Volume;
 import org.tirnak.binpacking.service.PackingService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -56,6 +57,18 @@ public class Calculator implements PackingService {
                         box.setContainer(spaceIndex);
                         localBoxesToPack.remove(box);
                         tempContainers.addAll(remainings);
+                        for (int i = 0; i < tempContainers.size(); i++) {
+                            Container ci = tempContainers.get(i);
+                            for (int i1 = i; i1 < tempContainers.size(); i1++) {
+                                Container cj = tempContainers.get(i1);
+                                if (ci.equals(cj)) {
+                                    continue;
+                                }
+                                if (ci.intersects(cj)) {
+                                    LOG.debug(() -> "achtung! temp container " + ci + " intersects with " + cj);
+                                }
+                            }
+                        }
                     } catch (RuntimeException e) {
                         continue;
                     }
@@ -118,40 +131,61 @@ public class Calculator implements PackingService {
         gaps[0] = container.xd - box.xd;
         gaps[1] = container.yd - box.yd;
         gaps[2] = container.zd - box.zd;
+        Arrays.sort(gaps);
         if (container.xd - box.xd == gaps[2]) {
             containers.add(new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, container.yd, container.zd));
             if (container.zd - box.zd == gaps[0]) {
-                containers.add(new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, box.yd, container.zd - box.zd));
-                containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, container.xd - box.xd, container.yd - box.yd, container.zd));
+                if (container.zd - box.zd > 0) { containers.add(
+                        new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, box.yd, container.zd - box.zd));}
+                if (container.xd - box.xd > 0 && container.yd - box.yd > 0) {containers.add(
+                        new Container(container.x0, container.y0 + box.yd, container.z0, box.xd, container.yd - box.yd, container.zd));}
             } else {
-                containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, box.xd, container.yd - box.yd, box.zd));
-                containers.add(new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, container.yd, container.zd - box.zd));
+                if (container.yd - box.yd > 0) {containers.add(
+                        new Container(container.x0, container.y0 + box.yd, container.z0, box.xd, container.yd - box.yd, box.zd));}
+                if (container.zd - box.zd > 0) {containers.add(
+                        new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, container.yd, container.zd - box.zd));}
             }
         } else if (container.yd - box.yd == gaps[2]) {
-            containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, container.xd, container.yd, container.zd - box.xd));
+            containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, container.xd, container.yd - box.yd, container.zd));
             if (container.xd - box.xd == gaps[0]) {
-                containers.add(new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, box.zd));
-                containers.add(new Container(container.x0, container.y0, container.z0 + box.zd, container.xd, box.yd, container.zd - box.zd));
+                if (container.xd - box.xd > 0) {containers.add(
+                        new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, box.zd));}
+                if (container.zd - box.zd > 0) {containers.add(
+                        new Container(container.x0, container.y0, container.z0 + box.zd, container.xd, box.yd, container.zd - box.zd));}
             } else {
-                containers.add(new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, container.zd));
-                containers.add(new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, box.yd, container.zd - box.zd));
+                if (container.xd - box.xd > 0) {containers.add(
+                        new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, container.zd));}
+                if (container.zd - box.zd > 0) {containers.add(
+                        new Container(container.x0, container.y0, container.z0 + box.zd, box.xd, box.yd, container.zd - box.zd));}
             }
         } else {
             containers.add(new Container(container.x0, container.y0, container.z0 + box.zd, container.xd, container.yd, container.zd - box.zd));
             if (container.xd - box.xd == gaps[0]) {
-                containers.add(new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, box.zd));
-                containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, container.xd, container.yd - box.yd, box.zd));
+                if (container.xd - box.xd > 0) {containers.add(
+                    new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, box.yd, box.zd));}
+                if (container.yd - box.yd > 0) {containers.add(
+                    new Container(container.x0, container.y0 + box.yd, container.z0, container.xd, container.yd - box.yd, box.zd));}
             } else {
-                containers.add(new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, container.yd, box.zd));
-                containers.add(new Container(container.x0, container.y0 + box.yd, container.z0, box.xd, container.yd - box.yd, box.zd));
+                if (container.xd - box.xd > 0) {containers.add(
+                    new Container(container.x0 + box.xd, container.y0, container.z0, container.xd - box.xd, container.yd, box.zd));}
+                if (container.yd - box.yd > 0) {containers.add(
+                    new Container(container.x0, container.y0 + box.yd, container.z0, box.xd, container.yd - box.yd, box.zd));}
             }
         }
 
         if (debug) {
             int volExpected = container.getVolume();
             int volActual = containers.stream().mapToInt(Volume::getVolume).sum() +
-                    box.xd * box.yd;
-            LOG.debug(() -> "expected: " + volExpected + ", actual: " + volActual);
+                    box.xd * box.yd * box.zd;
+            if (volActual != volExpected) {LOG.debug(() -> "expected: " + volExpected + ", actual: " + volActual);}
+            if (!container.fit(box)) {
+                LOG.debug(() -> container + " doesn't fit " + box);}
+            if (containers.get(0) != null && !container.fit(containers.get(0))) {
+                LOG.debug(() -> container + " doesn't fit " + containers.get(0));}
+            if (containers.size() > 1 && !container.fit(containers.get(1))) {
+                LOG.debug(() -> container + " doesn't fit " + containers.get(1));}
+            if (containers.size() == 2 && !container.fit(containers.get(2))) {
+                LOG.debug(() -> container + " doesn't fit " + containers.get(2));}
         }
         return containers;
     }

@@ -34,63 +34,114 @@
     return directive;
 
     /** @ngInject */
-    function D3Controller(CalculationService, RenderService, util) {
+    function D3Controller(CalculationService, RenderService, $scope, util) {
       var vm = this;
-      vm.addProduct = addProduct;
-      vm.paint = paint;
-      vm.deleteProduct = deleteProduct;
 
-      vm.data = {
+      $scope.data = {
         products: [
           {
             uuid: util.uuid(),
-            code: '1105 10 000 0',
+            code: '1010.23.12',
             length: 1,
             width: 1,
-            height: 1,
-            count: 1
+            height: 1
           },
           {
             uuid: util.uuid(),
-            code: '1521 10 000 0',
-            length: 0.5,
-            width: 0.5,
-            height: 0.5,
-            count: 1
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },/*
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },
+           {
+           uuid: util.uuid(),
+           code: '1010.23.12',
+           length: 0.5,
+           width: 0.5,
+           height: 0.5
+           },*/
+
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          },{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
           },
           {
             uuid: util.uuid(),
-            code: '1602 49 110 0',
-            length: 0.5,
-            width: 0.5,
-            height: 0.5,
-            count: 1
-          }
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          },{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
+          },
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          },{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
+          },
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          },/*{
+            uuid: util.uuid(),
+            code: '1010.23.12',
+            length: 1,
+            width: 1,
+            height: 1
+          },
+          {
+            uuid: util.uuid(),
+            code: '1010.23.45',
+            length: 1,
+            width: 1.5,
+            height: 1.5
+          }*/
         ]
       };
 
-      function addProduct() {
-        vm.data.products.push({
-          uuid: util.uuid(),
-          code: '',
-          length: 1,
-          width: 1,
-          height: 1,
-          count: 1
-        })
-      }
 
-      function deleteProduct(uuid) {
-        var elemIndex = vm.data.products.findIndex(function (e) {
-          return e.uuid === uuid;
-        });
-        vm.data.products.splice(elemIndex, 1);
-      }
-
+      vm.paint = paint;
 
       function paint() {
-        console.log(vm.data.products);
-        CalculationService.calculatePacking(vm.data.products).then(function (response) {
+        CalculationService.calculatePacking($scope.data.products).then(function (response) {
           console.log(response.data);
           RenderService.update(response.data);
         });
